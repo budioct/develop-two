@@ -1,0 +1,91 @@
+package budhioct.dev.runner;
+
+import budhioct.dev.entity.OfficialAgent;
+import budhioct.dev.entity.Pertamina;
+import budhioct.dev.entity.Stock;
+import budhioct.dev.entity.SubAgent;
+import budhioct.dev.repository.*;
+import budhioct.dev.utilities.Ownership;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+@RequiredArgsConstructor
+public class MyCommandLineRunner implements CommandLineRunner {
+
+    private final StockRepository stockRepository;
+    private final LogStockRepository logStockRepository;
+    private final PertaminaRepository pertaminaRepository;
+    private final OfficialAgentRepository officialAgentRepository;
+    private final SubAgentRepository subAgentRepository;
+    private final DistributionRepository distributionRepository;
+    private final TransactionRepository transactionRepository;
+    private final FolksyRepository folksyRepository;
+
+    Stock pertaminaStock = new Stock(1L, Ownership.PERTAMINA, 10000);
+    Stock officialAgentStock1 = new Stock(2L, Ownership.OFFICIAL_AGENT, 500);
+    Stock officialAgentStock2 = new Stock(3L, Ownership.OFFICIAL_AGENT, 500);
+    Stock officialAgentStock3 = new Stock(4L, Ownership.OFFICIAL_AGENT, 500);
+    Stock subAgentStock1 = new Stock(5L, Ownership.SUB_AGENT, 20);
+    Stock subAgentStock2 = new Stock(6L, Ownership.SUB_AGENT, 20);
+    Stock subAgentStock3 = new Stock(7L, Ownership.SUB_AGENT, 20);
+    Stock subAgentStock4 = new Stock(8L, Ownership.SUB_AGENT, 20);
+    Stock subAgentStock5 = new Stock(9L, Ownership.SUB_AGENT, 20);
+    Stock subAgentStock6 = new Stock(10L, Ownership.SUB_AGENT, 20);
+    Stock subAgentStock7 = new Stock(11L, Ownership.SUB_AGENT, 20);
+    Stock subAgentStock8 = new Stock(12L, Ownership.SUB_AGENT, 20);
+    Stock subAgentStock9= new Stock(13L, Ownership.SUB_AGENT, 20);
+
+    OfficialAgent officialAgent1 = new OfficialAgent("PT. HASANAH MAKMUR GEMILANG", "JL. KAMBOJA NO.5 WAINGAPU", null,  officialAgentStock1);
+    OfficialAgent officialAgent2 = new OfficialAgent("PT PUTRA MANDIRI MA ", "JL. CAKALANG KOMPLEKS PPI KEL. KOTA", null,  officialAgentStock2);
+    OfficialAgent officialAgent3 = new OfficialAgent("PT. SYAFAAT KARYA BERSAMA ", "DS.SEPULUH KEC. SEPULUH", null,  officialAgentStock3);
+
+    Pertamina pertamina = new Pertamina(
+            "PT Badak NGL",
+            "Wisma Nusantara Lantai 9 Jl. MH Thamrin No. 59 Jakarta Pusat 10350 Indonesia",
+            "+6221-31930243 / 31936317",
+            List.of(officialAgent1, officialAgent2, officialAgent3),
+            pertaminaStock
+    );
+
+    SubAgent subAgent1 = new SubAgent("Sub Agent A", "Jl. Mawar No. 123", officialAgent1, subAgentStock1);
+    SubAgent subAgent2 = new SubAgent("Sub Agent B", "Jl. Mawar No. 123", officialAgent1, subAgentStock2);
+    SubAgent subAgent3 = new SubAgent("Sub Agent C", "Jl. Mawar No. 123", officialAgent1, subAgentStock3);
+    SubAgent subAgent4 = new SubAgent("Sub Agent A", "Jl. Mawar No. 123", officialAgent2, subAgentStock4);
+    SubAgent subAgent5 = new SubAgent("Sub Agent B", "Jl. Mawar No. 123", officialAgent2, subAgentStock5);
+    SubAgent subAgent6 = new SubAgent("Sub Agent C", "Jl. Mawar No. 123", officialAgent2, subAgentStock6);
+    SubAgent subAgent7 = new SubAgent("Sub Agent A", "Jl. Mawar No. 123", officialAgent3, subAgentStock7);
+    SubAgent subAgent8 = new SubAgent("Sub Agent B", "Jl. Mawar No. 123", officialAgent3, subAgentStock8);
+    SubAgent subAgent9 = new SubAgent("Sub Agent C", "Jl. Mawar No. 123", officialAgent3, subAgentStock9);
+
+
+    @Override
+    public void run(String... args) throws Exception {
+        folksyRepository.deleteAll();
+        transactionRepository.deleteAll();
+        distributionRepository.deleteAll();
+        subAgentRepository.deleteAll();
+        officialAgentRepository.deleteAll();
+        pertaminaRepository.deleteAll();
+        logStockRepository.deleteAll();
+        stockRepository.deleteAll();
+
+        // Set Pertamina reference in OfficialAgent
+        officialAgent1.setPertamina(pertamina);
+        officialAgent2.setPertamina(pertamina);
+        officialAgent3.setPertamina(pertamina);
+
+        // Save Pertamina and OfficialAgent
+        pertaminaRepository.save(pertamina);
+        officialAgentRepository.saveAll(List.of(officialAgent1, officialAgent2, officialAgent3));
+
+        // Save SubAgent
+        subAgentRepository.saveAll(List.of(subAgent1, subAgent2, subAgent3, subAgent4, subAgent5, subAgent6, subAgent7, subAgent8, subAgent9));
+
+        System.out.println("data first success injected to db");
+    }
+
+}
