@@ -27,8 +27,6 @@ public class OfficialAgent {
     private String agentName;
     @Column(name = "address")
     private String address;
-    @Column(name = "gas_stock")
-    private int gasStock;
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -43,4 +41,12 @@ public class OfficialAgent {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_stock", referencedColumnName = "id")
     private Stock stock;
+
+    public OfficialAgent(String agentName, String address, Pertamina pertamina, Stock stock) {
+        this.agentName = agentName;
+        this.address = address;
+        this.pertamina = pertamina;
+        this.stock = stock;
+    }
+
 }

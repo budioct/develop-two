@@ -27,8 +27,6 @@ public class SubAgent {
     private String subAgentName;
     @Column(name = "address")
     private String address;
-    @Column(name = "gas_stock")
-    private int gasStock;
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -43,4 +41,12 @@ public class SubAgent {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id_stock", referencedColumnName = "id")
     private Stock stock;
+
+    public SubAgent(String subAgentName, String address, OfficialAgent officialAgent, Stock stock) {
+        this.subAgentName = subAgentName;
+        this.address = address;
+        this.officialAgent = officialAgent;
+        this.stock = stock;
+    }
+
 }

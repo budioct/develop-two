@@ -29,8 +29,6 @@ public class Pertamina {
     private String address;
     @Column(name = "contact")
     private String contact;
-    @Column(name = "gas_stock")
-    private int gasStock;
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -40,6 +38,15 @@ public class Pertamina {
     @OneToMany(mappedBy = "pertamina", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OfficialAgent> officialAgents;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_stock", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "id_stock", referencedColumnName = "id")
     private Stock stock;
+
+    public Pertamina(String pertaminaGroupAffiliate, String address, String contact, List<OfficialAgent> officialAgents, Stock stock) {
+        this.pertaminaGroupAffiliate = pertaminaGroupAffiliate;
+        this.address = address;
+        this.contact = contact;
+        this.officialAgents = officialAgents;
+        this.stock = stock;
+    }
+
 }

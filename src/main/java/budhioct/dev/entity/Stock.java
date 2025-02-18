@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -29,6 +30,7 @@ public class Stock {
     private Ownership ownership;
     @Column(name = "stock_amount")
     private Long stock_amount;
+    @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
     @LastModifiedDate
@@ -36,4 +38,10 @@ public class Stock {
     private LocalDateTime updatedAt;
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LogStock> logStocks;
+
+    public Stock(long id_ownership, Ownership ownership, long stock_amount) {
+        this.id_ownership = id_ownership;
+        this.ownership = ownership;
+        this.stock_amount = stock_amount;
+    }
 }
