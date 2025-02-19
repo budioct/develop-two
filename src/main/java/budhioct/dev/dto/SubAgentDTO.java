@@ -1,8 +1,8 @@
 package budhioct.dev.dto;
 
 import budhioct.dev.entity.OfficialAgent;
-import budhioct.dev.entity.Pertamina;
 import budhioct.dev.entity.Stock;
+import budhioct.dev.entity.SubAgent;
 import budhioct.dev.utilities.Ownership;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
@@ -10,20 +10,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-public class PertaminaDTO {
+public class SubAgentDTO {
 
     @Getter
     @Setter
     @Builder
-    public static class PertaminaResponse {
+    public static class SubAgentResponse {
         private Long id;
-        private String pertaminaGroupAffiliate;
+        private String subAgentName;
         private String address;
-        private String contact;
         private Long stock_amount_gas;
-        private List<String> officialAgentName;
+        private String officialAgent;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime createdAt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -33,13 +31,12 @@ public class PertaminaDTO {
     @Getter
     @Setter
     @Builder
-    public static class PertaminaDetailResponse {
+    public static class SubAgentDetailResponse {
         private Long id;
-        private String pertaminaGroupAffiliate;
+        private String subAgentName;
         private String address;
-        private String contact;
-        private List<OfficialAgentResponse> officialAgents;
         private StockResponse stock;
+        private OfficialAgentResponse officialAgent;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime createdAt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -54,6 +51,7 @@ public class PertaminaDTO {
         private String agentName;
         private String address;
         private Long stock_amount_gas;
+        private String pertaminaGroupAffiliate;
     }
 
     @Getter
@@ -65,38 +63,37 @@ public class PertaminaDTO {
         private Long stock_amount;
     }
 
-    public static PertaminaResponse toPertaminaResponse(Pertamina pertamina) {
-        return PertaminaResponse.builder()
-                .id(pertamina.getId())
-                .pertaminaGroupAffiliate(pertamina.getPertaminaGroupAffiliate())
-                .address(pertamina.getAddress())
-                .contact(pertamina.getContact())
-                .createdAt(pertamina.getCreatedAt())
-                .updatedAt(pertamina.getUpdatedAt())
-                .officialAgentName(pertamina.getOfficialAgents().stream().map(OfficialAgent::getAgentName).toList())
-                .stock_amount_gas(pertamina.getStock().getStock_amount())
+    public static SubAgentResponse toSubAgentResponse(SubAgent subAgent) {
+        return SubAgentResponse.builder()
+                .id(subAgent.getId())
+                .subAgentName(subAgent.getSubAgentName())
+                .address(subAgent.getAddress())
+                .stock_amount_gas(subAgent.getStock().getStock_amount())
+                .officialAgent(subAgent.getOfficialAgent().getAgentName())
+                .createdAt(subAgent.getCreatedAt())
+                .updatedAt(subAgent.getUpdatedAt())
                 .build();
     }
 
-    public static PertaminaDetailResponse toPertaminaDetailResponse(Pertamina pertamina) {
-        return PertaminaDetailResponse.builder()
-                .id(pertamina.getId())
-                .pertaminaGroupAffiliate(pertamina.getPertaminaGroupAffiliate())
-                .address(pertamina.getAddress())
-                .contact(pertamina.getContact())
-                .officialAgents(pertamina.getOfficialAgents().stream().map(PertaminaDTO::toOfficialAgentResponse).toList())
-                .stock(toStockResponse(pertamina.getStock()))
-                .createdAt(pertamina.getCreatedAt())
-                .updatedAt(pertamina.getUpdatedAt())
+    public static SubAgentDetailResponse toSubAgentDetailResponse(SubAgent subAgent) {
+        return SubAgentDetailResponse.builder()
+                .id(subAgent.getId())
+                .subAgentName(subAgent.getSubAgentName())
+                .address(subAgent.getAddress())
+                .stock(toStockResponse(subAgent.getStock()))
+                .officialAgent(toOfficialAgentResponse(subAgent.getOfficialAgent()))
+                .createdAt(subAgent.getCreatedAt())
+                .updatedAt(subAgent.getUpdatedAt())
                 .build();
     }
 
-    public static OfficialAgentResponse toOfficialAgentResponse(OfficialAgent officialAgent){
+    public static OfficialAgentResponse toOfficialAgentResponse(OfficialAgent officialAgent) {
         return OfficialAgentResponse.builder()
                 .id(officialAgent.getId())
                 .agentName(officialAgent.getAgentName())
-                .stock_amount_gas(officialAgent.getStock().getStock_amount())
                 .address(officialAgent.getAddress())
+                .stock_amount_gas(officialAgent.getStock().getStock_amount())
+                .pertaminaGroupAffiliate(officialAgent.getPertamina().getPertaminaGroupAffiliate())
                 .build();
     }
 
