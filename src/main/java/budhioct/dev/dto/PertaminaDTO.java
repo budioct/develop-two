@@ -52,8 +52,8 @@ public class PertaminaDTO {
     public static class OfficialAgentResponse {
         private Long id;
         private String agentName;
-        private Long stock_amount_gas;
         private String address;
+        private Long stock_amount_gas;
     }
 
     @Getter
