@@ -25,19 +25,19 @@ public class MyCommandLineRunner implements CommandLineRunner {
     private final TransactionRepository transactionRepository;
     private final FolksyRepository folksyRepository;
 
-    Stock pertaminaStock = new Stock(1L, Ownership.PERTAMINA, 10000);
-    Stock officialAgentStock1 = new Stock(2L, Ownership.OFFICIAL_AGENT, 500);
-    Stock officialAgentStock2 = new Stock(3L, Ownership.OFFICIAL_AGENT, 500);
-    Stock officialAgentStock3 = new Stock(4L, Ownership.OFFICIAL_AGENT, 500);
-    Stock subAgentStock1 = new Stock(5L, Ownership.SUB_AGENT, 20);
-    Stock subAgentStock2 = new Stock(6L, Ownership.SUB_AGENT, 20);
-    Stock subAgentStock3 = new Stock(7L, Ownership.SUB_AGENT, 20);
-    Stock subAgentStock4 = new Stock(8L, Ownership.SUB_AGENT, 20);
-    Stock subAgentStock5 = new Stock(9L, Ownership.SUB_AGENT, 20);
-    Stock subAgentStock6 = new Stock(10L, Ownership.SUB_AGENT, 20);
-    Stock subAgentStock7 = new Stock(11L, Ownership.SUB_AGENT, 20);
-    Stock subAgentStock8 = new Stock(12L, Ownership.SUB_AGENT, 20);
-    Stock subAgentStock9= new Stock(13L, Ownership.SUB_AGENT, 20);
+    Stock pertaminaStock = new Stock(Ownership.PERTAMINA, 10000);
+    Stock officialAgentStock1 = new Stock(Ownership.OFFICIAL_AGENT, 500);
+    Stock officialAgentStock2 = new Stock(Ownership.OFFICIAL_AGENT, 500);
+    Stock officialAgentStock3 = new Stock(Ownership.OFFICIAL_AGENT, 500);
+    Stock subAgentStock1 = new Stock(Ownership.SUB_AGENT, 20);
+    Stock subAgentStock2 = new Stock(Ownership.SUB_AGENT, 20);
+    Stock subAgentStock3 = new Stock(Ownership.SUB_AGENT, 20);
+    Stock subAgentStock4 = new Stock(Ownership.SUB_AGENT, 20);
+    Stock subAgentStock5 = new Stock(Ownership.SUB_AGENT, 20);
+    Stock subAgentStock6 = new Stock(Ownership.SUB_AGENT, 20);
+    Stock subAgentStock7 = new Stock(Ownership.SUB_AGENT, 20);
+    Stock subAgentStock8 = new Stock(Ownership.SUB_AGENT, 20);
+    Stock subAgentStock9 = new Stock(Ownership.SUB_AGENT, 20);
 
     OfficialAgent officialAgent1 = new OfficialAgent("PT. HASANAH MAKMUR GEMILANG", "JL. KAMBOJA NO.5 WAINGAPU", null,  officialAgentStock1);
     OfficialAgent officialAgent2 = new OfficialAgent("PT PUTRA MANDIRI MA ", "JL. CAKALANG KOMPLEKS PPI KEL. KOTA", null,  officialAgentStock2);
