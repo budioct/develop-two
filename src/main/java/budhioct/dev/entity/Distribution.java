@@ -33,9 +33,9 @@ public class Distribution {
     @Column(name = "updated_at", insertable = false)
     private LocalDateTime updatedAt;
     @ManyToOne
-    @JoinColumn(name = "id_sender")
+    @JoinColumn(name = "sender_id")
     private Stock sender;
     @ManyToOne
-    @JoinColumn(name = "id_recipient")
+    @JoinColumn(name = "recipient_id")
     private Stock recipient;
 }

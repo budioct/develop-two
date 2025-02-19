@@ -35,9 +35,9 @@ public class Transaction {
     @Column(name = "updated_at", insertable = false)
     private LocalDateTime updatedAt;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_sub_agent", referencedColumnName = "id")
+    @JoinColumn(name = "sub_agent_id", referencedColumnName = "id")
     private SubAgent subAgent;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_folksy", referencedColumnName = "id")
+    @JoinColumn(name = "folksy_id", referencedColumnName = "id")
     private Folksy folksy;
 }

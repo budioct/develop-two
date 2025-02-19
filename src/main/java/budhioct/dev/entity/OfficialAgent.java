@@ -34,12 +34,12 @@ public class OfficialAgent {
     @Column(name = "updated_at", insertable = false)
     private LocalDateTime updatedAt;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_pertamina", referencedColumnName = "id")
+    @JoinColumn(name = "pertamina_id", referencedColumnName = "id")
     private Pertamina pertamina;
     @OneToMany(mappedBy = "officialAgent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubAgent> subAgents;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_stock", referencedColumnName = "id")
+    @JoinColumn(name = "stock_id", referencedColumnName = "id")
     private Stock stock;
 
     public OfficialAgent(String agentName, String address, Pertamina pertamina, Stock stock) {

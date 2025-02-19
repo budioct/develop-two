@@ -35,6 +35,6 @@ public class LogStock {
     @Column(name = "updated_at", insertable = false)
     private LocalDateTime updatedAt;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_stock", referencedColumnName = "id")
+    @JoinColumn(name = "stock_id", referencedColumnName = "id")
     private Stock stock;
 }

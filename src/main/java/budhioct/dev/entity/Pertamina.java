@@ -38,7 +38,7 @@ public class Pertamina {
     @OneToMany(mappedBy = "pertamina", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OfficialAgent> officialAgents;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id_stock", referencedColumnName = "id")
+    @JoinColumn(name = "stock_id", referencedColumnName = "id")
     private Stock stock;
 
     public Pertamina(String pertaminaGroupAffiliate, String address, String contact, List<OfficialAgent> officialAgents, Stock stock) {
