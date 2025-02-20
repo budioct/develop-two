@@ -22,10 +22,10 @@ public class Distribution {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "stock_amount")
+    @Column(name = "date")
     private LocalDateTime date;
     @Column(name = "amount_gas")
-    private int amountGas;
+    private Long amountGas;
     @CreatedDate
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
