@@ -4,6 +4,7 @@ import budhioct.dev.rest.config.RestResponse;
 import budhioct.dev.service.DistributionService;
 import budhioct.dev.utilities.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +17,10 @@ public class DistributionRestController {
     @Autowired
     private DistributionService distributionService;
 
-    @PostMapping("/transfer/stock")
+    @PostMapping(
+            path = "/transfer/stock",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public RestResponse.object<String> distributeStock(
             @RequestParam(name = "sourceStockId") Long sourceStockId,
             @RequestParam(name = "targetStockId") Long targetStockId,
@@ -26,7 +30,7 @@ public class DistributionRestController {
         return RestResponse.object.<String>builder()
                 .data("")
                 .status_code(Constants.OK)
-                .message(Constants.DELETE_MESSAGE)
+                .message(Constants.DISTRIBUTION_MESSAGE)
                 .build();
     }
 
