@@ -1,16 +1,14 @@
 package budhioct.dev.runner;
 
-import budhioct.dev.entity.OfficialAgent;
-import budhioct.dev.entity.Pertamina;
-import budhioct.dev.entity.Stock;
-import budhioct.dev.entity.SubAgent;
+import budhioct.dev.entity.*;
 import budhioct.dev.repository.*;
 import budhioct.dev.utilities.Ownership;
+import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -24,6 +22,8 @@ public class MyCommandLineRunner implements CommandLineRunner {
     private final DistributionRepository distributionRepository;
     private final TransactionRepository transactionRepository;
     private final FolksyRepository folksyRepository;
+    private final Faker faker = new Faker(new Locale("in-ID"));
+    private final Random random = new Random();
 
     Stock pertaminaStock = new Stock(Ownership.PERTAMINA, 10000);
     Stock officialAgentStock1 = new Stock(Ownership.OFFICIAL_AGENT, 500);
@@ -43,13 +43,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
     OfficialAgent officialAgent2 = new OfficialAgent("PT PUTRA MANDIRI MA ", "JL. CAKALANG KOMPLEKS PPI KEL. KOTA", null,  officialAgentStock2);
     OfficialAgent officialAgent3 = new OfficialAgent("PT. SYAFAAT KARYA BERSAMA ", "DS.SEPULUH KEC. SEPULUH", null,  officialAgentStock3);
 
-    Pertamina pertamina = new Pertamina(
-            "PT Badak NGL",
-            "Wisma Nusantara Lantai 9 Jl. MH Thamrin No. 59 Jakarta Pusat 10350 Indonesia",
-            "+6221-31930243 / 31936317",
-            List.of(officialAgent1, officialAgent2, officialAgent3),
-            pertaminaStock
-    );
+    Pertamina pertamina = new Pertamina("PT Badak NGL", "Wisma Nusantara Lantai 9 Jl. MH Thamrin No. 59 Jakarta Pusat 10350 Indonesia", "+6221-31930243 / 31936317", List.of(officialAgent1, officialAgent2, officialAgent3), pertaminaStock);
 
     SubAgent subAgent1 = new SubAgent("Sub Agent A", "Jl. Mawar No. 123", officialAgent1, subAgentStock1);
     SubAgent subAgent2 = new SubAgent("Sub Agent B", "Jl. Mawar No. 123", officialAgent1, subAgentStock2);
@@ -61,6 +55,14 @@ public class MyCommandLineRunner implements CommandLineRunner {
     SubAgent subAgent8 = new SubAgent("Sub Agent B", "Jl. Mawar No. 123", officialAgent3, subAgentStock8);
     SubAgent subAgent9 = new SubAgent("Sub Agent C", "Jl. Mawar No. 123", officialAgent3, subAgentStock9);
 
+    List<Folksy> folksies = new ArrayList<>();
+    void addFolksy(){
+        for (int i = 0; i < 100; i++) {
+            Folksy folksy = new Folksy();
+            folksy.setName(faker.name().fullName());
+            folksies.add(folksy);
+        }
+    }
 
     @Override
     public void run(String... args) throws Exception {
@@ -84,6 +86,10 @@ public class MyCommandLineRunner implements CommandLineRunner {
 
         // Save SubAgent
         subAgentRepository.saveAll(List.of(subAgent1, subAgent2, subAgent3, subAgent4, subAgent5, subAgent6, subAgent7, subAgent8, subAgent9));
+
+        // save Folksy
+        addFolksy();
+        folksyRepository.saveAll(folksies);
 
         System.out.println("data first success injected to db");
     }
