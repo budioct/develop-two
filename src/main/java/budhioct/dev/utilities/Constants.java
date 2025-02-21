@@ -38,5 +38,7 @@ public class Constants {
     public static final String FORBIDDEN_MESSAGE = "The request is understood, but it has been refused or access is not allowed";
     public static final String CONFLICT_MESSAGE = "Any message which should help the user to resolve the conflict";
     public static final String SERVER_ERROR_MESSAGE = "Something is broken";
+    public static final String DISTRIBUTION_MESSAGE = "Distribution is successfully";
+    public static final String TRANSACTION_MESSAGE = "Transaction is successfully";
 
 }
