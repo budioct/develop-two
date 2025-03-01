@@ -1,5 +1,6 @@
 package budhioct.dev.service.impl;
 
+import budhioct.dev.dto.TransactionDTO;
 import budhioct.dev.entity.*;
 import budhioct.dev.repository.*;
 import budhioct.dev.service.TransactionService;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +44,17 @@ public class TransactionServiceImpl implements TransactionService {
 
         logTransaction(subAgent, folksy, amountGas, pricePerUnit);
 
+    }
+
+    @Transactional(readOnly = true)
+    public List<TransactionDTO.TransactionResponse> listTransaction() {
+
+        List<TransactionDTO.TransactionResponse> list = transactionRepository.findAll()
+                .stream()
+                .map(TransactionDTO::toTransactionResponse)
+                .toList();
+
+        return list;
     }
 
     private void logStockChange(Stock stock, Long changeAmount, String status) {

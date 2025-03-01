@@ -1,14 +1,17 @@
 package budhioct.dev.rest.controller;
 
+import budhioct.dev.dto.TransactionDTO;
 import budhioct.dev.rest.config.RestResponse;
 import budhioct.dev.service.TransactionService;
 import budhioct.dev.utilities.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/transaction")
@@ -33,6 +36,17 @@ public class TransactionRestController {
                 .status_code(Constants.OK)
                 .message(Constants.TRANSACTION_MESSAGE)
                 .build();
+    }
+
+    @GetMapping(
+            path = "/fetch",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<Map<String, List<TransactionDTO.TransactionResponse>>> getTransaction() {
+        List<TransactionDTO.TransactionResponse> transaction = transactionService.listTransaction();
+        Map<String, List<TransactionDTO.TransactionResponse>> response = new HashMap<>();
+        response.put("transactions", transaction);
+        return ResponseEntity.ok(response);
     }
 
 
