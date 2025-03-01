@@ -25,7 +25,7 @@ public class LogStock {
     @Column(name = "number_of_changes")
     private Long numberOfChanges;
     @Column(name = "status")
-    private String status; // "MASUK" atau "KELUAR"
+    private String status; // "IN" or "OUT"
     @Column(name = "date")
     private LocalDateTime date;
     @CreatedDate

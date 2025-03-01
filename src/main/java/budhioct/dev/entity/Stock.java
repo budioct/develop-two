@@ -24,6 +24,8 @@ public class Stock {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "owner_id")
+    private Long ownerId;
     @Enumerated(EnumType.STRING)
     private Ownership ownership;
     @Column(name = "stock_amount")
@@ -37,7 +39,9 @@ public class Stock {
     @OneToMany(mappedBy = "stock", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LogStock> logStocks;
 
-    public Stock(Ownership ownership, long stock_amount) {
+
+    public Stock(Long ownerId, Ownership ownership, long stock_amount) {
+        this.ownerId = ownerId;
         this.ownership = ownership;
         this.stock_amount = stock_amount;
     }

@@ -33,4 +33,9 @@ public class Folksy {
     private LocalDateTime updatedAt;
     @OneToMany(mappedBy = "folksy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions;
+
+    public Folksy(String name) {
+        this.name = name;
+    }
+
 }

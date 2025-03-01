@@ -18,13 +18,13 @@ import java.util.List;
 @NoArgsConstructor
 @EntityListeners({AuditingEntityListener.class})
 @Entity
-@Table(name = "pertamina")
-public class Pertamina {
+@Table(name = "putangina")
+public class Putangina {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "pertamina_group_affiliate")
-    private String pertaminaGroupAffiliate;
+    @Column(name = "putangina_group_affiliate")
+    private String putanginaGroupAffiliate;
     @Column(name = "address")
     private String address;
     @Column(name = "contact")
@@ -35,14 +35,14 @@ public class Pertamina {
     @LastModifiedDate
     @Column(name = "updated_at", insertable = false)
     private LocalDateTime updatedAt;
-    @OneToMany(mappedBy = "pertamina", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "putangina", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OfficialAgent> officialAgents;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "stock_id", referencedColumnName = "id")
     private Stock stock;
 
-    public Pertamina(String pertaminaGroupAffiliate, String address, String contact, List<OfficialAgent> officialAgents, Stock stock) {
-        this.pertaminaGroupAffiliate = pertaminaGroupAffiliate;
+    public Putangina(String putanginaGroupAffiliate, String address, String contact, List<OfficialAgent> officialAgents, Stock stock) {
+        this.putanginaGroupAffiliate = putanginaGroupAffiliate;
         this.address = address;
         this.contact = contact;
         this.officialAgents = officialAgents;
