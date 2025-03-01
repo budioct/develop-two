@@ -1,7 +1,7 @@
 package budhioct.dev.dto;
 
 import budhioct.dev.entity.OfficialAgent;
-import budhioct.dev.entity.Pertamina;
+import budhioct.dev.entity.Putangina;
 import budhioct.dev.entity.Stock;
 import budhioct.dev.utilities.Ownership;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -12,14 +12,14 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class PertaminaDTO {
+public class PutanginaDTO {
 
     @Getter
     @Setter
     @Builder
-    public static class PertaminaResponse {
+    public static class PutanginaResponse {
         private Long id;
-        private String pertaminaGroupAffiliate;
+        private String putanginaGroupAffiliate;
         private String address;
         private String contact;
         private Long stock_amount_gas;
@@ -33,9 +33,9 @@ public class PertaminaDTO {
     @Getter
     @Setter
     @Builder
-    public static class PertaminaDetailResponse {
+    public static class PutanginaDetailResponse {
         private Long id;
-        private String pertaminaGroupAffiliate;
+        private String putanginaGroupAffiliate;
         private String address;
         private String contact;
         private List<OfficialAgentResponse> officialAgents;
@@ -65,29 +65,29 @@ public class PertaminaDTO {
         private Long stock_amount;
     }
 
-    public static PertaminaResponse toPertaminaResponse(Pertamina pertamina) {
-        return PertaminaResponse.builder()
-                .id(pertamina.getId())
-                .pertaminaGroupAffiliate(pertamina.getPertaminaGroupAffiliate())
-                .address(pertamina.getAddress())
-                .contact(pertamina.getContact())
-                .createdAt(pertamina.getCreatedAt())
-                .updatedAt(pertamina.getUpdatedAt())
-                .officialAgentName(pertamina.getOfficialAgents().stream().map(OfficialAgent::getAgentName).toList())
-                .stock_amount_gas(pertamina.getStock().getStock_amount())
+    public static PutanginaResponse toPutanginaResponse(Putangina putangina) {
+        return PutanginaResponse.builder()
+                .id(putangina.getId())
+                .putanginaGroupAffiliate(putangina.getPutanginaGroupAffiliate())
+                .address(putangina.getAddress())
+                .contact(putangina.getContact())
+                .createdAt(putangina.getCreatedAt())
+                .updatedAt(putangina.getUpdatedAt())
+                .officialAgentName(putangina.getOfficialAgents().stream().map(OfficialAgent::getAgentName).toList())
+                .stock_amount_gas(putangina.getStock().getStock_amount())
                 .build();
     }
 
-    public static PertaminaDetailResponse toPertaminaDetailResponse(Pertamina pertamina) {
-        return PertaminaDetailResponse.builder()
-                .id(pertamina.getId())
-                .pertaminaGroupAffiliate(pertamina.getPertaminaGroupAffiliate())
-                .address(pertamina.getAddress())
-                .contact(pertamina.getContact())
-                .officialAgents(pertamina.getOfficialAgents().stream().map(PertaminaDTO::toOfficialAgentResponse).toList())
-                .stock(toStockResponse(pertamina.getStock()))
-                .createdAt(pertamina.getCreatedAt())
-                .updatedAt(pertamina.getUpdatedAt())
+    public static PutanginaDetailResponse toPutanginaDetailResponse(Putangina putangina) {
+        return PutanginaDetailResponse.builder()
+                .id(putangina.getId())
+                .putanginaGroupAffiliate(putangina.getPutanginaGroupAffiliate())
+                .address(putangina.getAddress())
+                .contact(putangina.getContact())
+                .officialAgents(putangina.getOfficialAgents().stream().map(PutanginaDTO::toOfficialAgentResponse).toList())
+                .stock(toStockResponse(putangina.getStock()))
+                .createdAt(putangina.getCreatedAt())
+                .updatedAt(putangina.getUpdatedAt())
                 .build();
     }
 

@@ -51,7 +51,7 @@ public class SubAgentDTO {
         private String agentName;
         private String address;
         private Long stock_amount_gas;
-        private String pertaminaGroupAffiliate;
+        private String putanginaGroupAffiliate;
     }
 
     @Getter
@@ -93,7 +93,7 @@ public class SubAgentDTO {
                 .agentName(officialAgent.getAgentName())
                 .address(officialAgent.getAddress())
                 .stock_amount_gas(officialAgent.getStock().getStock_amount())
-                .pertaminaGroupAffiliate(officialAgent.getPertamina().getPertaminaGroupAffiliate())
+                .putanginaGroupAffiliate(officialAgent.getPutangina().getPutanginaGroupAffiliate())
                 .build();
     }
 
