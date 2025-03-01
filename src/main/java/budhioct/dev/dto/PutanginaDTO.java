@@ -38,8 +38,8 @@ public class PutanginaDTO {
         private String putanginaGroupAffiliate;
         private String address;
         private String contact;
-        private List<OfficialAgentResponse> officialAgents;
         private StockResponse stock;
+        private List<OfficialAgentResponse> officialAgents;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime createdAt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -53,6 +53,7 @@ public class PutanginaDTO {
         private Long id;
         private String agentName;
         private String address;
+        private Long stock_owner_id;
         private Long stock_amount_gas;
     }
 
@@ -95,6 +96,7 @@ public class PutanginaDTO {
         return OfficialAgentResponse.builder()
                 .id(officialAgent.getId())
                 .agentName(officialAgent.getAgentName())
+                .stock_owner_id(officialAgent.getStock().getId())
                 .stock_amount_gas(officialAgent.getStock().getStock_amount())
                 .address(officialAgent.getAddress())
                 .build();

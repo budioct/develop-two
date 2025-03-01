@@ -38,9 +38,9 @@ public class OfficialAgentDTO {
         private Long id;
         private String agentName;
         private String address;
+        private StockResponse stock;
         private PutanginaResponse putangina;
         private List<SubAgentResponse> subAgentName;
-        private StockResponse stock;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime createdAt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -55,6 +55,7 @@ public class OfficialAgentDTO {
         private String putanginaGroupAffiliate;
         private String address;
         private String contact;
+        private Long stock_owner_id;
         private Long stock_amount_gas;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime createdAt;
@@ -69,6 +70,7 @@ public class OfficialAgentDTO {
         private Long id;
         private String subAgentName;
         private String address;
+        private Long stock_owner_id;
         private Long stock_amount_gas;
     }
 
@@ -113,6 +115,7 @@ public class OfficialAgentDTO {
                 .putanginaGroupAffiliate(putangina.getPutanginaGroupAffiliate())
                 .address(putangina.getAddress())
                 .contact(putangina.getContact())
+                .stock_owner_id(putangina.getStock().getId())
                 .stock_amount_gas(putangina.getStock().getStock_amount())
                 .createdAt(putangina.getCreatedAt())
                 .updatedAt(putangina.getUpdatedAt())
@@ -124,6 +127,7 @@ public class OfficialAgentDTO {
                 .id(subAgent.getId())
                 .subAgentName(subAgent.getSubAgentName())
                 .address(subAgent.getAddress())
+                .stock_owner_id(subAgent.getStock().getId())
                 .stock_amount_gas(subAgent.getStock().getStock_amount())
                 .build();
     }
