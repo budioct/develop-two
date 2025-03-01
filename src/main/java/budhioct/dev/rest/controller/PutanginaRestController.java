@@ -1,8 +1,8 @@
 package budhioct.dev.rest.controller;
 
-import budhioct.dev.dto.PertaminaDTO;
+import budhioct.dev.dto.PutanginaDTO;
 import budhioct.dev.rest.config.RestResponse;
-import budhioct.dev.service.PertaminaService;
+import budhioct.dev.service.PutanginaService;
 import budhioct.dev.utilities.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -17,20 +17,20 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api/v1/pertamina")
-public class PertaminaRestController {
+@RequestMapping(path = "/api/v1/putangina")
+public class PutanginaRestController {
 
     @Autowired
-    private PertaminaService pertaminaService;
+    private PutanginaService putanginaService;
 
     @GetMapping(
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<Map<String, List<PertaminaDTO.PertaminaResponse>>> listPertamina() {
-        List<PertaminaDTO.PertaminaResponse> pertamina = pertaminaService.listPertamina();
-        Map<String, List<PertaminaDTO.PertaminaResponse>> response = new HashMap<>();
-        response.put("pertamina", pertamina);
+    public ResponseEntity<Map<String, List<PutanginaDTO.PutanginaResponse>>> listPutangina() {
+        List<PutanginaDTO.PutanginaResponse> putangina = putanginaService.listPutangina();
+        Map<String, List<PutanginaDTO.PutanginaResponse>> response = new HashMap<>();
+        response.put("putanginas", putangina);
         return ResponseEntity.ok(response);
     }
 
@@ -38,10 +38,10 @@ public class PertaminaRestController {
             path = "{id}/detail",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public RestResponse.object<PertaminaDTO.PertaminaDetailResponse> detailPertamina(@PathVariable(name = "id") Long id) {
-        PertaminaDTO.PertaminaDetailResponse pertamina = pertaminaService.detailPertamina(id);
-        return RestResponse.object.<PertaminaDTO.PertaminaDetailResponse>builder()
-                .data(pertamina)
+    public RestResponse.object<PutanginaDTO.PutanginaDetailResponse> detailPutangina(@PathVariable(name = "id") Long id) {
+        PutanginaDTO.PutanginaDetailResponse putangina = putanginaService.detailPutangina(id);
+        return RestResponse.object.<PutanginaDTO.PutanginaDetailResponse>builder()
+                .data(putangina)
                 .status_code(Constants.OK)
                 .message(Constants.ITEM_EXIST_MESSAGE)
                 .build();
