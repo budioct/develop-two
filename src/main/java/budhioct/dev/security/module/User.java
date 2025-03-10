@@ -1,4 +1,4 @@
-package budhioct.dev.security.data;
+package budhioct.dev.security.module;
 
 import budhioct.dev.security.role.Role;
 import jakarta.persistence.*;

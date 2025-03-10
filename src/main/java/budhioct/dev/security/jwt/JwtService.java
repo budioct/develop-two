@@ -1,6 +1,6 @@
 package budhioct.dev.security.jwt;
 
-import budhioct.dev.security.data.User;
+import budhioct.dev.security.module.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

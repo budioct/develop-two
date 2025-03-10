@@ -1,8 +1,7 @@
 package budhioct.dev.security.jwt;
 
-import budhioct.dev.security.data.Token;
-import budhioct.dev.security.data.TokenRepository;
-import budhioct.dev.security.data.UserRepository;
+import budhioct.dev.security.module.TokenRepository;
+import budhioct.dev.security.module.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

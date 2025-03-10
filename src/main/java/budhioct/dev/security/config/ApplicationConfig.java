@@ -1,7 +1,7 @@
 package budhioct.dev.security.config;
 
 import budhioct.dev.security.auditing.ApplicationAuditAware;
-import budhioct.dev.security.data.UserRepository;
+import budhioct.dev.security.module.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

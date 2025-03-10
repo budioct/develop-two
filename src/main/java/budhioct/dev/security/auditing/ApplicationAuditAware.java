@@ -1,6 +1,6 @@
 package budhioct.dev.security.auditing;
 
-import budhioct.dev.security.data.User;
+import budhioct.dev.security.module.User;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -1,4 +1,4 @@
-package budhioct.dev.security.data;
+package budhioct.dev.security.module;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
