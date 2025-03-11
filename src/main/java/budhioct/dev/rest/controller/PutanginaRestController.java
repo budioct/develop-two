@@ -7,6 +7,7 @@ import budhioct.dev.utilities.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/api/v1/putangina")
+@PreAuthorize("hasAnyRole('USER')")
 public class PutanginaRestController {
 
     @Autowired
@@ -27,6 +29,7 @@ public class PutanginaRestController {
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @PreAuthorize("hasAnyAuthority('user:read')")
     public ResponseEntity<Map<String, List<PutanginaDTO.PutanginaResponse>>> listPutangina() {
         List<PutanginaDTO.PutanginaResponse> putangina = putanginaService.listPutangina();
         Map<String, List<PutanginaDTO.PutanginaResponse>> response = new HashMap<>();
@@ -38,6 +41,7 @@ public class PutanginaRestController {
             path = "{id}/detail",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @PreAuthorize("hasAnyAuthority('user:read')")
     public RestResponse.object<PutanginaDTO.PutanginaDetailResponse> detailPutangina(@PathVariable(name = "id") Long id) {
         PutanginaDTO.PutanginaDetailResponse putangina = putanginaService.detailPutangina(id);
         return RestResponse.object.<PutanginaDTO.PutanginaDetailResponse>builder()
@@ -46,6 +50,5 @@ public class PutanginaRestController {
                 .message(Constants.ITEM_EXIST_MESSAGE)
                 .build();
     }
-
 
 }
