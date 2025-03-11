@@ -7,6 +7,7 @@ import budhioct.dev.utilities.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/transaction")
+@PreAuthorize("hasAnyRole('USER')")
 public class TransactionRestController {
 
     @Autowired
@@ -24,6 +26,7 @@ public class TransactionRestController {
             path = "/proses",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @PreAuthorize("hasAnyAuthority('user:create')")
     public RestResponse.object<String> createTransaction(
             @RequestParam(name = "sourceSubAgentId") Long sourceSubAgentId,
             @RequestParam(name = "targetFolksyId") Long targetFolksyId,
@@ -42,6 +45,7 @@ public class TransactionRestController {
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
+    @PreAuthorize("hasAnyAuthority('user:read')")
     public ResponseEntity<Map<String, List<TransactionDTO.TransactionResponse>>> getTransaction() {
         List<TransactionDTO.TransactionResponse> transaction = transactionService.listTransaction();
         Map<String, List<TransactionDTO.TransactionResponse>> response = new HashMap<>();
