@@ -7,7 +7,9 @@
   <router-link :to="{ name: 'warung' }">Warung</router-link>
   <br><br>
   <!-- page content -->
-  <router-view></router-view>
+  <div class="container">
+    <router-view></router-view>
+  </div>
   <!-- /page content -->
 </template>
 
