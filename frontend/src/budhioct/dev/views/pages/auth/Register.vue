@@ -1,22 +1,21 @@
 <script setup>
 import {ref} from "vue";
-import {useRouter} from "vue-router";
-import {login} from "../../../services/apiService.js";
+import {register} from "../../../services/apiService.js";
 import * as yup from "yup";
 import {useField, useForm} from "vee-validate";
-import {useAuthStore} from "../../../stores/authStore.js";
 
-const router = useRouter();
-const authStore = useAuthStore();
 const apiError = ref("");
+const apiSuccess = ref("");
 const data = ref({
   email: "",
   password: "",
+  role: "",
 });
 
 const schema = yup.object({
   email: yup.string().required("*Email is required").email(),
-  password: yup.string().required("*Password is required"),
+  password: yup.string().required("*Password is required").min(8),
+  role: yup.string().required("*Role is required").oneOf(["USER"]),
 });
 
 const {handleSubmit, setErrors, errors, isSubmitting} = useForm({
@@ -28,24 +27,25 @@ const {handleSubmit, setErrors, errors, isSubmitting} = useForm({
 
 const {value: email} = useField("email");
 const {value: password} = useField("password");
+const {value: role} = useField("role");
 
 const submit = handleSubmit(async (values) => {
   try {
     data.value.email = email.value;
     data.value.password = password.value;
-    const response = await login(data.value);
+    data.value.role = role.value;
+    const response = await register(data.value);
     console.log(response);
-
-    if (response.data.status_code === 200) {
-      authStore.setToken(response.data.data.access_token);
-      await router.push({name: 'home'});
+    if (response.data.status_code === 201) {
+      apiSuccess.value = response.data.message + "... you can ";
     }
+
   } catch (error) {
     console.error("Failed to login: " + error);
     if (error.response && error.response.data) {
       const { status_code, errors } = error.response.data;
-      if (status_code === 401) {
-        apiError.value = errors;
+      if (status_code === 400) {
+        apiError.value = errors + ". Try email else.";
       } else {
         apiError.value = "An unexpected error occurred. Please try again.";
       }
@@ -63,7 +63,12 @@ const submit = handleSubmit(async (values) => {
           <div class="card shadow-2-strong" style="border-radius: 1rem;">
             <div class="card-body p-5">
 
-              <h3 class="mb-5 text-center">Log in</h3>
+              <h3 class="mb-5 text-center">Sign up</h3>
+
+              <!-- Alert for success from API -->
+              <div v-if="apiSuccess" class="alert alert-success" role="alert">
+                {{ apiSuccess }} <router-link :to="{ name: 'login' }" class="text-primary">Sign in</router-link>
+              </div>
 
               <!-- Alert for error from API -->
               <div v-if="apiError" class="alert alert-danger" role="alert">
@@ -97,15 +102,31 @@ const submit = handleSubmit(async (values) => {
                   <small><span v-if="errors.password" class="text-danger">{{ errors.password }}</span></small>
                 </div>
 
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">
-                  Log in
+                <div data-mdb-input-init class="form-outline mb-3">
+                  <label class="form-label" for="inputState">Role</label>
+                  <select
+                      v-model="role"
+                      id="inputState"
+                      class="form-control"
+                      :class="{ 'is-invalid': errors.role }"
+                  >
+                    <option value="" selected>Choose...</option>
+                    <option value="USER">USER</option>
+                  </select>
+                  <small><span v-if="errors.role" class="text-danger">{{ errors.role }}</span></small>
+                </div>
+
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block"
+                        type="submit">
+                  Sign up
                 </button>
               </form>
 
               <hr class="my-4">
 
               <div data-mdb-input-init class="form-outline mb-3">
-                Don't have an account? <router-link :to="{ name: 'register' }" class="text-primary">Sign up</router-link>
+                Have an account?
+                <router-link :to="{ name: 'login' }" class="text-primary">Log in</router-link>
               </div>
 
             </div>
