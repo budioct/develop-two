@@ -1,119 +1,120 @@
 <script setup>
+import {ref} from "vue";
+import {useRouter} from "vue-router";
+import {login} from "../../../services/apiService.js";
+import * as yup from "yup";
+import {useField, useForm} from "vee-validate";
+import {useAuthStore} from "../../../stores/authStore.js";
+
+const router = useRouter();
+const authStore = useAuthStore();
+const apiError = ref("");
+const data = ref({
+  email: "",
+  password: "",
+});
+
+const schema = yup.object({
+  email: yup.string().required("*Email is required").email(),
+  password: yup.string().required("*Password is required"),
+});
+
+const {handleSubmit, setErrors, errors, isSubmitting} = useForm({
+  validationSchema: schema,
+  validateOnSubmit: true,
+  validateOnBlur: true,
+  validateOnChange: true,
+});
+
+const {value: email} = useField("email");
+const {value: password} = useField("password");
+
+const submit = handleSubmit(async (values) => {
+  try {
+    data.value.email = email.value;
+    data.value.password = password.value;
+    const response = await login(data.value);
+    console.log(response);
+
+    if (response.data.status_code === 200) {
+      authStore.setToken(response.data.data.access_token);
+      await router.push({name: 'home'});
+    }
+  } catch (error) {
+    console.error("Failed to login: " + error);
+    if (error.response && error.response.data) {
+      const { status_code, errors } = error.response.data;
+      if (status_code === 401) {
+        apiError.value = errors;
+      } else {
+        apiError.value = "An unexpected error occurred. Please try again.";
+      }
+    }
+  }
+});
 
 </script>
 
 <template>
-  <div class="container">
+  <section class="vh-100" style="background-color: #508bfc;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card shadow-2-strong" style="border-radius: 1rem;">
+            <div class="card-body p-5">
 
-    <div class="card">
+              <h3 class="mb-5 text-center">Log in</h3>
 
-      <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-        <li class="nav-item text-center">
-          <a class="nav-link active btl" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Login</a>
-        </li>
-        <li class="nav-item text-center">
-          <a class="nav-link btr" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Signup</a>
-        </li>
-      </ul>
+              <!-- Alert for error from API -->
+              <div v-if="apiError" class="alert alert-danger" role="alert">
+                {{ apiError }}
+              </div>
 
-      <div class="tab-content" id="pills-tabContent">
+              <form @submit.prevent="submit">
+                <div data-mdb-input-init class="form-outline mb-3">
+                  <label class="form-label" for="typeEmailX-2">Email</label>
+                  <input
+                      v-model="email"
+                      type="email"
+                      id="typeEmailX-2"
+                      class="form-control form-control-lg"
+                      :class="{ 'is-invalid': errors.email }"
+                      :disabled="isSubmitting"
+                  />
+                  <small><span v-if="errors.email" class="text-danger">{{ errors.email }}</span></small>
+                </div>
 
-        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-          <div class="form px-4 pt-4">
-            <input type="text" class="form-control" placeholder="Email" />
-            <input type="password" class="form-control" placeholder="Password" />
-            <button class="btn btn-dark btn-block">Login</button>
+                <div data-mdb-input-init class="form-outline mb-3">
+                  <label class="form-label" for="typePasswordX-2">Password</label>
+                  <input
+                      v-model="password"
+                      type="password"
+                      id="typePasswordX-2"
+                      class="form-control form-control-lg"
+                      :class="{ 'is-invalid': errors.password }"
+                      :disabled="isSubmitting"
+                  />
+                  <small><span v-if="errors.password" class="text-danger">{{ errors.password }}</span></small>
+                </div>
+
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">
+                  Log in
+                </button>
+              </form>
+
+              <hr class="my-4">
+
+              <div data-mdb-input-init class="form-outline mb-3">
+                Don't have an account? <router-link :to="{ name: 'register' }" class="text-primary">Sign up</router-link>
+              </div>
+
+            </div>
           </div>
         </div>
-
-        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-          <div class="form px-4 pt-4">
-            <input type="text" class="form-control" placeholder="Email" />
-            <input type="password" class="form-control" placeholder="Password" />
-            <select class="custom-select">
-              <option selected>Choose...</option>
-              <option value="USER">USER</option>
-            </select>
-            <button class="btn btn-dark btn-block">Signup</button>
-          </div>
-        </div>
-
       </div>
-
     </div>
-
-  </div>
+  </section>
 </template>
 
 <style scoped>
-.container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.card {
-  width: 400px;
-  border: 1px solid #0d6efd;
-  border-radius: 10px;
-  background: white;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px 0;
-}
-
-/* Style tombol navigasi */
-.nav-pills {
-  display: flex;
-  justify-content: center;
-  padding: 0 10px;
-}
-
-.nav-item {
-  flex: 1;
-}
-
-.nav-link {
-  border-radius: 0;
-  border-bottom: 2px solid #0d6efd40;
-}
-
-.btr {
-  border-top-right-radius: 5px !important;
-}
-
-.btl {
-  border-top-left-radius: 5px !important;
-}
-
-/* Style form */
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-bottom: 20px;
-}
-
-.form input,
-.form select {
-  border-radius: 5px;
-  padding: 10px;
-}
-
-.form button {
-  margin-top: 10px;
-}
-
-.btn-dark {
-  background-color: #0d6efd;
-  border-color: #0d6efd;
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.btn-dark:hover {
-  background-color: #0b5ed7;
-}
 </style>
