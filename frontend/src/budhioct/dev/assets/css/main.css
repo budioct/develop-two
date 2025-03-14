@@ -10,3 +10,18 @@ html {
 #app {
     font-family: 'Inter', sans-serif;
 }
+
+/*form valiation*/
+.is-invalid {
+    background-color: #ffebee !important;
+    border-color: #ff1744 !important;
+}
+
+.error-message {
+    color: #ff1744 !important;
+    font-size: 0.875em;
+    display: block;
+    text-decoration-line: underline;
+    text-underline-offset: 2px;
+}
+/*form valiation*/
