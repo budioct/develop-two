@@ -5,6 +5,7 @@ import {login} from "../../../services/apiService.js";
 import * as yup from "yup";
 import {useField, useForm} from "vee-validate";
 import {useAuthStore} from "../../../stores/authStore.js";
+import {useNotification} from "../../../constants/notifications.js";
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -39,6 +40,7 @@ const submit = handleSubmit(async (values) => {
     if (response.data.status_code === 200) {
       authStore.setToken(response.data.data.access_token);
       await router.push({name: 'home'});
+      useNotification.success("Success", "Berhasil melakukan login.");
     }
   } catch (error) {
     console.error("Failed to login: " + error);
