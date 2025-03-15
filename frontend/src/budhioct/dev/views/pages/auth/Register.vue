@@ -3,6 +3,7 @@ import {ref} from "vue";
 import {register} from "../../../services/apiService.js";
 import * as yup from "yup";
 import {useField, useForm} from "vee-validate";
+import {useNotification} from "../../../constants/notifications.js";
 
 const apiError = ref("");
 const apiSuccess = ref("");
@@ -35,9 +36,9 @@ const submit = handleSubmit(async (values) => {
     data.value.password = password.value;
     data.value.role = role.value;
     const response = await register(data.value);
-    console.log(response);
     if (response.data.status_code === 201) {
       apiSuccess.value = response.data.message + "... you can ";
+      useNotification.success("Success", "Berhasil melakukan registrasi.");
     }
 
   } catch (error) {
