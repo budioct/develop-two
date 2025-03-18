@@ -65,7 +65,11 @@ const submit = handleSubmit(async (values) => {
           <div class="card shadow-2-strong" style="border-radius: 1rem;">
             <div class="card-body p-5">
 
-              <h3 class="mb-5 text-center">Log in</h3>
+              <div class="text-center">
+                <img :src=" `/images/putangina.png`" alt="logo" style="max-width: 280px">
+              </div>
+
+              <h4 class="mb-3 text-center">Log in</h4>
 
               <!-- Alert for error from API -->
               <div v-if="apiError" class="alert alert-danger" role="alert">
