@@ -25,3 +25,19 @@ html {
     text-underline-offset: 2px;
 }
 /*form valiation*/
+
+/* Router Link Active */
+.router-link-exact-active {
+    color: #6CB52D !important;
+    font-weight: bold !important;
+}
+/* Router Link Active */
+
+#nprogress .bar {
+    background: #6CB52D !important;
+}
+
+#nprogress .spinner-icon {
+    border-top-color: #6CB52D !important;
+    border-left-color: #6CB52D !important;
+}
