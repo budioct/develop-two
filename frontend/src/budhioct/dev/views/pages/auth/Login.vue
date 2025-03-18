@@ -39,7 +39,7 @@ const submit = handleSubmit(async (values) => {
 
     if (response.data.status_code === 200) {
       authStore.setToken(response.data.data.access_token);
-      await router.push({name: 'home'});
+      await router.push({name: 'lobby'});
       useNotification.success("Success", "Berhasil melakukan login.");
     }
   } catch (error) {
