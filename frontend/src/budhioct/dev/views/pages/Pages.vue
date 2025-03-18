@@ -1,13 +1,11 @@
 <script setup>
+import Navbar from "../../components/Navbar.vue";
 </script>
 
 <template>
-  <h1>Pages</h1>
-  <router-link :to="{ name: 'home' }">Home</router-link> &nbsp; &nbsp; &nbsp;
-  <router-link :to="{ name: 'warung' }">Warung</router-link>
-  <br><br>
   <!-- page content -->
   <div class="container">
+    <navbar></navbar>
     <router-view></router-view>
   </div>
   <!-- /page content -->
