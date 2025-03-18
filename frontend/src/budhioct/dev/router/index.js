@@ -21,6 +21,12 @@ const routes = [
               meta: {requiresAuth: true}
             },
             {
+                path: '/lobby',
+                name: 'lobby',
+                component: () => import('../views/pages/Lobby.vue'),
+                meta: {requiresAuth: true}
+            },
+            {
                 path: '/warung',
                 name: 'warung',
                 component: () => import('../views/pages/Warung.vue'),
