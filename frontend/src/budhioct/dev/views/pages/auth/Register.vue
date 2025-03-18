@@ -19,7 +19,7 @@ const schema = yup.object({
   role: yup.string().required("*Role is required").oneOf(["USER"]),
 });
 
-const {handleSubmit, setErrors, errors, isSubmitting} = useForm({
+const {handleSubmit, setErrors, errors, isSubmitting, resetForm} = useForm({
   validationSchema: schema,
   validateOnSubmit: true,
   validateOnBlur: true,
@@ -30,7 +30,7 @@ const {value: email} = useField("email");
 const {value: password} = useField("password");
 const {value: role} = useField("role");
 
-const submit = handleSubmit(async (values) => {
+const submit = handleSubmit(async (values, { resetForm }) => {
   try {
     data.value.email = email.value;
     data.value.password = password.value;
@@ -39,10 +39,11 @@ const submit = handleSubmit(async (values) => {
     if (response.data.status_code === 201) {
       apiSuccess.value = response.data.message + "... you can ";
       useNotification.success("Success", "Berhasil melakukan registrasi.");
+      resetForm();
     }
 
   } catch (error) {
-    console.error("Failed to login: " + error);
+    console.error("Failed to register: " + error);
     if (error.response && error.response.data) {
       const { status_code, errors } = error.response.data;
       if (status_code === 400) {
@@ -71,13 +72,15 @@ const submit = handleSubmit(async (values) => {
               <h4 class="mb-3 text-center">Sign up</h4>
 
               <!-- Alert for success from API -->
-              <div v-if="apiSuccess" class="alert alert-success" role="alert">
+              <div v-if="apiSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ apiSuccess }} <router-link :to="{ name: 'login' }" class="text-primary">Sign in</router-link>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
 
               <!-- Alert for error from API -->
-              <div v-if="apiError" class="alert alert-danger" role="alert">
+              <div v-if="apiError" class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ apiError }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
 
               <form @submit.prevent="submit">
