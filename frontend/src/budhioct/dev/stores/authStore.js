@@ -10,7 +10,7 @@ const setToken = (token) => {
 };
 
 const clearToken = () => {
-    cookies.remove('username');
+    cookies.remove('token');
 };
 
 export const useAuthStore = defineStore('auth', {
