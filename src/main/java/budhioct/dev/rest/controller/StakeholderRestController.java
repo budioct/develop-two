@@ -1,8 +1,8 @@
 package budhioct.dev.rest.controller;
 
-import budhioct.dev.dto.PutanginaDTO;
+import budhioct.dev.dto.StakeholderDTO;
 import budhioct.dev.rest.config.RestResponse;
-import budhioct.dev.service.PutanginaService;
+import budhioct.dev.service.StakeholderService;
 import budhioct.dev.utilities.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,22 +18,22 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api/v1/putangina")
+@RequestMapping(path = "/api/v1/stakeholder")
 @PreAuthorize("hasAnyRole('USER')")
-public class PutanginaRestController {
+public class StakeholderRestController {
 
     @Autowired
-    private PutanginaService putanginaService;
+    private StakeholderService stakeholderService;
 
     @GetMapping(
             path = "/fetch",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @PreAuthorize("hasAnyAuthority('user:read')")
-    public ResponseEntity<Map<String, List<PutanginaDTO.PutanginaResponse>>> listPutangina() {
-        List<PutanginaDTO.PutanginaResponse> putangina = putanginaService.listPutangina();
-        Map<String, List<PutanginaDTO.PutanginaResponse>> response = new HashMap<>();
-        response.put("putanginas", putangina);
+    public ResponseEntity<Map<String, List<StakeholderDTO.StakeholderResponse>>> listStakeholder() {
+        List<StakeholderDTO.StakeholderResponse> stakeholder = stakeholderService.listStakeholder();
+        Map<String, List<StakeholderDTO.StakeholderResponse>> response = new HashMap<>();
+        response.put("stakeholders", stakeholder);
         return ResponseEntity.ok(response);
     }
 
@@ -42,10 +42,10 @@ public class PutanginaRestController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @PreAuthorize("hasAnyAuthority('user:read')")
-    public RestResponse.object<PutanginaDTO.PutanginaDetailResponse> detailPutangina(@PathVariable(name = "id") Long id) {
-        PutanginaDTO.PutanginaDetailResponse putangina = putanginaService.detailPutangina(id);
-        return RestResponse.object.<PutanginaDTO.PutanginaDetailResponse>builder()
-                .data(putangina)
+    public RestResponse.object<StakeholderDTO.StakeholderDetailResponse> detailStakeholder(@PathVariable(name = "id") Long id) {
+        StakeholderDTO.StakeholderDetailResponse stakeholder = stakeholderService.detailStakeholder(id);
+        return RestResponse.object.<StakeholderDTO.StakeholderDetailResponse>builder()
+                .data(stakeholder)
                 .status_code(Constants.OK)
                 .message(Constants.ITEM_EXIST_MESSAGE)
                 .build();

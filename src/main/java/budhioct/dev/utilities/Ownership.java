@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum Ownership {
-    PUTANGINA,
+    SUBHOLDING,
     OFFICIAL_AGENT,
     SUB_AGENT
 }
