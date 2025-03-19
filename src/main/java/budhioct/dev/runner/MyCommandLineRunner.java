@@ -17,7 +17,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
 
     private final StockRepository stockRepository;
     private final LogStockRepository logStockRepository;
-    private final PutanginaRepository putanginaRepository;
+    private final StakeholderRepository stakeholderRepository;
     private final OfficialAgentRepository officialAgentRepository;
     private final SubAgentRepository subAgentRepository;
     private final DistributionRepository distributionRepository;
@@ -34,10 +34,10 @@ public class MyCommandLineRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         clearDatabase();
 
-        List<Putangina> putanginas = createPutanginas(10);
-        putanginaRepository.saveAll(putanginas);
+        List<Stakeholder> stakeholders = createStakeholder(10);
+        stakeholderRepository.saveAll(stakeholders);
 
-        List<OfficialAgent> officialAgents = createOfficialAgents(putanginas);
+        List<OfficialAgent> officialAgents = createOfficialAgents(stakeholders);
         officialAgentRepository.saveAll(officialAgents);
 
         //List<SubAgent> subAgents = new ArrayList<>();
@@ -59,7 +59,7 @@ public class MyCommandLineRunner implements CommandLineRunner {
         distributionRepository.deleteAll();
         subAgentRepository.deleteAll();
         officialAgentRepository.deleteAll();
-        putanginaRepository.deleteAll();
+        stakeholderRepository.deleteAll();
         logStockRepository.deleteAll();
         stockRepository.deleteAll();
 
@@ -67,32 +67,32 @@ public class MyCommandLineRunner implements CommandLineRunner {
         subAgentOwnerId = 10000L;
     }
 
-    private List<Putangina> createPutanginas(int count) {
-        List<Putangina> putanginas = new ArrayList<>();
+    private List<Stakeholder> createStakeholder(int count) {
+        List<Stakeholder> stakeholders = new ArrayList<>();
         for (int i = 1; i <= count; i++) {
-            Stock putanginaStock = new Stock(null, Ownership.PUTANGINA, 30000);
-            Putangina putangina = new Putangina(
-                    "PT PUTANGINA " + faker.rockBand().name(),
+            Stock stakeholderStock = new Stock(null, Ownership.SUBHOLDING, 30000);
+            Stakeholder stakeholder = new Stakeholder(
+                    "PT " + faker.rockBand().name(),
                     faker.address().streetAddress(),
                     "+628" + faker.numerify("#####") + "xxxxx",
                     new ArrayList<>(),
-                    putanginaStock
+                    stakeholderStock
             );
-            putanginas.add(putangina);
+            stakeholders.add(stakeholder);
         }
-        return putanginas;
+        return stakeholders;
     }
 
-    private List<OfficialAgent> createOfficialAgents(List<Putangina> putanginas) {
+    private List<OfficialAgent> createOfficialAgents(List<Stakeholder> stakeholders) {
         List<OfficialAgent> officialAgents = new ArrayList<>();
 
-        for (Putangina putangina : putanginas) {
+        for (Stakeholder stakeholder : stakeholders) {
             for (int i = 1; i <= 10; i++) {
                 Stock officialStock = new Stock(officialAgentOwnerId++, Ownership.OFFICIAL_AGENT, 1000);
                 OfficialAgent officialAgent = new OfficialAgent(
                         Names.agenResmi.get(random.nextInt(Names.agenResmi.size())),
                         faker.address().streetAddress(),
-                        putangina,
+                        stakeholder,
                         officialStock
                 );
                 officialAgents.add(officialAgent);

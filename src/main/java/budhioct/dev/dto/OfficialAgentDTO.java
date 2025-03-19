@@ -1,7 +1,7 @@
 package budhioct.dev.dto;
 
 import budhioct.dev.entity.OfficialAgent;
-import budhioct.dev.entity.Putangina;
+import budhioct.dev.entity.Stakeholder;
 import budhioct.dev.entity.Stock;
 import budhioct.dev.entity.SubAgent;
 import budhioct.dev.utilities.Ownership;
@@ -23,7 +23,7 @@ public class OfficialAgentDTO {
         private String agentName;
         private String address;
         private Long stock_amount_gas;
-        private String putanginaGroupAffiliate;
+        private String subholdingGroupAffiliate;
         private List<String> subAgentName;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime createdAt;
@@ -39,7 +39,7 @@ public class OfficialAgentDTO {
         private String agentName;
         private String address;
         private StockResponse stock;
-        private PutanginaResponse putangina;
+        private StakeholderResponse stakeholder;
         private List<SubAgentResponse> subAgentName;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime createdAt;
@@ -50,9 +50,9 @@ public class OfficialAgentDTO {
     @Getter
     @Setter
     @Builder
-    public static class PutanginaResponse {
+    public static class StakeholderResponse {
         private Long id;
-        private String putanginaGroupAffiliate;
+        private String subholdingGroupAffiliate;
         private String address;
         private String contact;
         private Long stock_owner_id;
@@ -89,7 +89,7 @@ public class OfficialAgentDTO {
                 .agentName(officialAgent.getAgentName())
                 .address(officialAgent.getAddress())
                 .stock_amount_gas(officialAgent.getStock().getStock_amount())
-                .putanginaGroupAffiliate(officialAgent.getPutangina().getPutanginaGroupAffiliate())
+                .subholdingGroupAffiliate(officialAgent.getStakeholder().getSubholdingGroupAffiliate())
                 .subAgentName(officialAgent.getSubAgents().stream().map(SubAgent::getSubAgentName).toList())
                 .createdAt(officialAgent.getCreatedAt())
                 .updatedAt(officialAgent.getUpdatedAt())
@@ -102,23 +102,23 @@ public class OfficialAgentDTO {
                 .agentName(officialAgent.getAgentName())
                 .address(officialAgent.getAddress())
                 .stock(toStockResponse(officialAgent.getStock()))
-                .putangina(toPutanginaResponse(officialAgent.getPutangina()))
+                .stakeholder(toStakeholderResponse(officialAgent.getStakeholder()))
                 .subAgentName(officialAgent.getSubAgents().stream().map(OfficialAgentDTO::toSubAgentResponse).toList())
                 .createdAt(officialAgent.getCreatedAt())
                 .updatedAt(officialAgent.getUpdatedAt())
                 .build();
     }
 
-    public static PutanginaResponse toPutanginaResponse(Putangina putangina) {
-        return PutanginaResponse.builder()
-                .id(putangina.getId())
-                .putanginaGroupAffiliate(putangina.getPutanginaGroupAffiliate())
-                .address(putangina.getAddress())
-                .contact(putangina.getContact())
-                .stock_owner_id(putangina.getStock().getId())
-                .stock_amount_gas(putangina.getStock().getStock_amount())
-                .createdAt(putangina.getCreatedAt())
-                .updatedAt(putangina.getUpdatedAt())
+    public static StakeholderResponse toStakeholderResponse(Stakeholder stakeholder) {
+        return StakeholderResponse.builder()
+                .id(stakeholder.getId())
+                .subholdingGroupAffiliate(stakeholder.getSubholdingGroupAffiliate())
+                .address(stakeholder.getAddress())
+                .contact(stakeholder.getContact())
+                .stock_owner_id(stakeholder.getStock().getId())
+                .stock_amount_gas(stakeholder.getStock().getStock_amount())
+                .createdAt(stakeholder.getCreatedAt())
+                .updatedAt(stakeholder.getUpdatedAt())
                 .build();
     }
 

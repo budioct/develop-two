@@ -35,7 +35,7 @@ const submit = handleSubmit(async (values) => {
     data.value.email = email.value;
     data.value.password = password.value;
     const response = await login(data.value);
-    console.log(response);
+    // console.log(response);
 
     if (response.data.status_code === 200) {
       authStore.setToken(response.data.data.access_token);

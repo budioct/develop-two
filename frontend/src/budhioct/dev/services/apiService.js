@@ -39,8 +39,25 @@ const logout = async () => {
     }
 };
 
+const listStakeholder = async () => {
+    try {
+        return await axios.get(urlApi.stakeholder.list,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${useAuthStore().token}`,
+                },
+            });
+    } catch (error) {
+        console.error(error);
+        throw error
+    }
+};
+
 export {
     register,
     login,
     logout,
+    listStakeholder,
 }

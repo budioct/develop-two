@@ -52,7 +52,7 @@ public class SubAgentDTO {
         private String address;
         private Long stock_owner_id;
         private Long stock_amount_gas;
-        private String putanginaGroupAffiliate;
+        private String subholdingGroupAffiliate;
     }
 
     @Getter
@@ -95,7 +95,7 @@ public class SubAgentDTO {
                 .address(officialAgent.getAddress())
                 .stock_owner_id(officialAgent.getStock().getId())
                 .stock_amount_gas(officialAgent.getStock().getStock_amount())
-                .putanginaGroupAffiliate(officialAgent.getPutangina().getPutanginaGroupAffiliate())
+                .subholdingGroupAffiliate(officialAgent.getStakeholder().getSubholdingGroupAffiliate())
                 .build();
     }
 

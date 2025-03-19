@@ -53,6 +53,9 @@ async function logoutClick() {
                 <router-link :to="{ name: 'profil' }" class="nav-link">Profil</router-link>
               </li>
               <li class="nav-item" v-if="isAuthenticated">
+                <router-link :to="{ name: 'stakeholder' }" class="nav-link">Stakeholder</router-link>
+              </li>
+              <li class="nav-item" v-if="isAuthenticated">
                 <router-link :to="{ name: 'home' }" class="nav-link">Home</router-link>
               </li>
               <li class="nav-item" v-if="isAuthenticated">

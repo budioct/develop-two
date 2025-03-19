@@ -1,7 +1,7 @@
 package budhioct.dev.dto;
 
 import budhioct.dev.entity.OfficialAgent;
-import budhioct.dev.entity.Putangina;
+import budhioct.dev.entity.Stakeholder;
 import budhioct.dev.entity.Stock;
 import budhioct.dev.utilities.Ownership;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -12,14 +12,14 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class PutanginaDTO {
+public class StakeholderDTO {
 
     @Getter
     @Setter
     @Builder
-    public static class PutanginaResponse {
+    public static class StakeholderResponse {
         private Long id;
-        private String putanginaGroupAffiliate;
+        private String subholdingGroupAffiliate;
         private String address;
         private String contact;
         private Long stock_amount_gas;
@@ -33,9 +33,9 @@ public class PutanginaDTO {
     @Getter
     @Setter
     @Builder
-    public static class PutanginaDetailResponse {
+    public static class StakeholderDetailResponse {
         private Long id;
-        private String putanginaGroupAffiliate;
+        private String subholdingGroupAffiliate;
         private String address;
         private String contact;
         private StockResponse stock;
@@ -66,29 +66,29 @@ public class PutanginaDTO {
         private Long stock_amount;
     }
 
-    public static PutanginaResponse toPutanginaResponse(Putangina putangina) {
-        return PutanginaResponse.builder()
-                .id(putangina.getId())
-                .putanginaGroupAffiliate(putangina.getPutanginaGroupAffiliate())
-                .address(putangina.getAddress())
-                .contact(putangina.getContact())
-                .createdAt(putangina.getCreatedAt())
-                .updatedAt(putangina.getUpdatedAt())
-                .officialAgentName(putangina.getOfficialAgents().stream().map(OfficialAgent::getAgentName).toList())
-                .stock_amount_gas(putangina.getStock().getStock_amount())
+    public static StakeholderResponse toStakeholderResponse(Stakeholder stakeholder) {
+        return StakeholderResponse.builder()
+                .id(stakeholder.getId())
+                .subholdingGroupAffiliate(stakeholder.getSubholdingGroupAffiliate())
+                .address(stakeholder.getAddress())
+                .contact(stakeholder.getContact())
+                .createdAt(stakeholder.getCreatedAt())
+                .updatedAt(stakeholder.getUpdatedAt())
+                .officialAgentName(stakeholder.getOfficialAgents().stream().map(OfficialAgent::getAgentName).toList())
+                .stock_amount_gas(stakeholder.getStock().getStock_amount())
                 .build();
     }
 
-    public static PutanginaDetailResponse toPutanginaDetailResponse(Putangina putangina) {
-        return PutanginaDetailResponse.builder()
-                .id(putangina.getId())
-                .putanginaGroupAffiliate(putangina.getPutanginaGroupAffiliate())
-                .address(putangina.getAddress())
-                .contact(putangina.getContact())
-                .officialAgents(putangina.getOfficialAgents().stream().map(PutanginaDTO::toOfficialAgentResponse).toList())
-                .stock(toStockResponse(putangina.getStock()))
-                .createdAt(putangina.getCreatedAt())
-                .updatedAt(putangina.getUpdatedAt())
+    public static StakeholderDetailResponse toStakeholderDetailResponse(Stakeholder stakeholder) {
+        return StakeholderDetailResponse.builder()
+                .id(stakeholder.getId())
+                .subholdingGroupAffiliate(stakeholder.getSubholdingGroupAffiliate())
+                .address(stakeholder.getAddress())
+                .contact(stakeholder.getContact())
+                .officialAgents(stakeholder.getOfficialAgents().stream().map(StakeholderDTO::toOfficialAgentResponse).toList())
+                .stock(toStockResponse(stakeholder.getStock()))
+                .createdAt(stakeholder.getCreatedAt())
+                .updatedAt(stakeholder.getUpdatedAt())
                 .build();
     }
 
