@@ -50,6 +50,9 @@ async function logoutClick() {
           <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item" v-if="isAuthenticated">
+                <router-link :to="{ name: 'profil' }" class="nav-link">Profil</router-link>
+              </li>
+              <li class="nav-item" v-if="isAuthenticated">
                 <router-link :to="{ name: 'home' }" class="nav-link">Home</router-link>
               </li>
               <li class="nav-item" v-if="isAuthenticated">

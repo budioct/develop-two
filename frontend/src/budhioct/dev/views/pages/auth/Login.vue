@@ -66,7 +66,7 @@ const submit = handleSubmit(async (values) => {
             <div class="card-body p-5">
 
               <div class="text-center">
-                <img :src=" `/images/putangina.png`" alt="logo" style="max-width: 280px">
+                <img :src=" `/images/logo-vertical-1.png`" alt="logo">
               </div>
 
               <h4 class="mb-3 text-center">Log in</h4>
