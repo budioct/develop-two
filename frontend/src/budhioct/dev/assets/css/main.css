@@ -41,3 +41,10 @@ html {
     border-top-color: #6CB52D !important;
     border-left-color: #6CB52D !important;
 }
+
+.dejum {
+    text-decoration: underline;
+    text-underline-offset: 0.4rem;
+    color: #6CB52D;
+    font-weight: bold;
+}
