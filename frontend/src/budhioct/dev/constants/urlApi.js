@@ -4,6 +4,9 @@ const urlApi = {
         login: 'http://localhost:8080/api/v1/auth/login',
         logout: 'http://localhost:8080/api/v1/auth/logout',
     },
+    stakeholder: {
+        list: 'http://localhost:8080/api/v1/stakeholder/fetch',
+    }
 }
 
 export { urlApi }
