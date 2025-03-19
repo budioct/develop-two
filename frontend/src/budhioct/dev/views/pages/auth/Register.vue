@@ -66,14 +66,14 @@ const submit = handleSubmit(async (values, { resetForm }) => {
             <div class="card-body p-5">
 
               <div class="text-center">
-                <img :src=" `/images/putangina.png`" alt="logo" style="max-width: 280px">
+                <img :src=" `/images/logo-vertical-1.png`" alt="logo">
               </div>
 
               <h4 class="mb-3 text-center">Sign up</h4>
 
               <!-- Alert for success from API -->
               <div v-if="apiSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ apiSuccess }} <router-link :to="{ name: 'login' }" class="text-primary">Sign in</router-link>
+                {{ apiSuccess }} <router-link :to="{ name: 'login' }" class="text-primary">Log in</router-link>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
 
