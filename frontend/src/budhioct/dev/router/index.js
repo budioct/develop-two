@@ -33,6 +33,12 @@ const routes = [
                 meta: {requiresAuth: true}
             },
             {
+                path: '/stakeholder',
+                name: 'stakeholder',
+                component: () => import('../views/pages/business/Stakeholder.vue'),
+                meta: {requiresAuth: true}
+            },
+            {
                 path: '/warung',
                 name: 'warung',
                 component: () => import('../views/pages/Warung.vue'),
