@@ -1,11 +1,14 @@
 <script>
 import { ref, computed } from 'vue';
+import Pagination from './Pagination.vue';
 
 export default {
+  components: { Pagination },
   props: {
     columns: Array, // { key: 'name', label: 'Nama' }
     data: Array,
-    perPage: { type: Number, default: 10 }
+    perPage: { type: Number, default: 10 },
+    loading: { type: Boolean, default: false }
   },
   setup(props, { slots }) {
     const search = ref('');
@@ -34,6 +37,10 @@ export default {
       return Math.ceil(filteredData.value.length / props.perPage);
     });
 
+    const changePage = (page) => {
+      currentPage.value = page;
+    };
+
     const hasActions = computed(() => !!slots.actions);
 
     return {
@@ -42,7 +49,8 @@ export default {
       filteredData,
       paginatedData,
       totalPages,
-      hasActions
+      hasActions,
+      changePage
     };
   }
 };
@@ -66,6 +74,14 @@ export default {
 
     <!-- Tabel -->
     <div class="table-responsive text-center">
+
+      <!-- Loader -->
+      <div v-if="loading" class="d-flex justify-content-center my-4">
+        <div class="spinner-border text-success" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
       <table class="table table-hover">
         <thead>
         <tr>
@@ -94,14 +110,11 @@ export default {
     </div>
 
     <!-- Pagination -->
-    <ul class="pagination" style="margin-bottom: -10px;">
-      <li v-for="page in totalPages" :key="page">
-        <button class="btn btn-sm btn-light" @click="currentPage = page">
-          {{ page }}
-        </button>
-        <hr>
-      </li>
-    </ul>
+    <Pagination
+        :currentPage="currentPage"
+        :totalPages="totalPages"
+        @pageChange="changePage"
+    />
 
   </div>
 </template>
