@@ -1,10 +1,11 @@
 <script setup>
 import {computed, onMounted, ref} from "vue";
-import {useRouter} from "vue-router";
+import {useRouter, useRoute} from "vue-router";
 import {useAuthStore} from "../stores/authStore.js";
 import {logout} from "../services/apiService.js";
 import {useNotification} from "../constants/notifications.js";
 
+const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const isAuthenticated = computed(() => authStore.isAuthenticated);
@@ -22,6 +23,10 @@ async function logoutClick() {
     useNotification.success("Success", "Berhasil melakukan logout.");
   }
 }
+
+const isStakeholderActive = computed(() => {
+  return route.name === "stakeholder" || route.name === "stakeholder-detail";
+});
 
 </script>
 
@@ -53,7 +58,7 @@ async function logoutClick() {
                 <router-link :to="{ name: 'profil' }" class="nav-link">Profil</router-link>
               </li>
               <li class="nav-item" v-if="isAuthenticated">
-                <router-link :to="{ name: 'stakeholder' }" class="nav-link">Stakeholder</router-link>
+                <router-link :to="{ name: 'stakeholder' }" class="nav-link" :class="{ 'active': isStakeholderActive }">Stakeholder</router-link>
               </li>
               <li class="nav-item" v-if="isAuthenticated">
                 <router-link :to="{ name: 'home' }" class="nav-link">Home</router-link>
