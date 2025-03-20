@@ -1,8 +1,10 @@
 <script setup>
 import {onMounted, ref} from 'vue';
+import {useRouter} from "vue-router";
 import {listStakeholder} from '../../../services/apiService.js';
 import KTDatatable from "../../../components/tables/KTDatatable.vue"
 
+const router = useRouter();
 const stakeholders = ref([]);
 const sort = ref(10);
 const columns = ref([
@@ -46,6 +48,11 @@ async function fetchStakeholder() {
 onMounted(async () => {
   await fetchStakeholder();
 });
+
+async function goTo(id) {
+  await router.push({name: 'stakeholder-detail', params: {id: id}});
+}
+
 </script>
 
 <template>
@@ -59,7 +66,7 @@ onMounted(async () => {
       <!-- Tampilkan KTDatatable -->
       <KTDatatable :columns="columns" :data="stakeholders" :perPage="sort">
         <template #actions="{ row }">
-          <button class="btn btn-outline-primary btn-sm" @click="">Detail</button>
+          <button class="btn btn-outline-primary btn-sm" @click="goTo(row.id)">Detail</button>
         </template>
       </KTDatatable>
 

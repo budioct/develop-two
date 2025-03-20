@@ -6,6 +6,7 @@ const urlApi = {
     },
     stakeholder: {
         list: 'http://localhost:8080/api/v1/stakeholder/fetch',
+        detail: (id) => `http://localhost:8080/api/v1/stakeholder/${id}/detail`,
     }
 }
 
