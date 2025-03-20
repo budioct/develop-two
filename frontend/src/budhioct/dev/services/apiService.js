@@ -71,10 +71,44 @@ const detailStakeholder = async (id) => {
     }
 };
 
+const listOfficialAgent = async () => {
+    try {
+        return await axios.get(urlApi.officialagent.list,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${useAuthStore().token}`,
+                },
+            });
+    } catch (error) {
+        console.error(error);
+        throw error
+    }
+};
+
+const listSubAgent = async () => {
+    try {
+        return await axios.get(urlApi.subagent.list,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${useAuthStore().token}`,
+                },
+            });
+    } catch (error) {
+        console.error(error);
+        throw error
+    }
+};
+
 export {
     register,
     login,
     logout,
     listStakeholder,
     detailStakeholder,
+    listOfficialAgent,
+    listSubAgent,
 }

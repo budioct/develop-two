@@ -45,6 +45,18 @@ const routes = [
                 meta: {requiresAuth: true}
             },
             {
+                path: '/offagent',
+                name: 'offagent',
+                component: () => import('../views/pages/business/OfficialAgents.vue'),
+                meta: {requiresAuth: true}
+            },
+            {
+                path: '/subagent',
+                name: 'subagent',
+                component: () => import('../views/pages/business/SubAgents.vue'),
+                meta: {requiresAuth: true}
+            },
+            {
                 path: '/warung',
                 name: 'warung',
                 component: () => import('../views/pages/Warung.vue'),

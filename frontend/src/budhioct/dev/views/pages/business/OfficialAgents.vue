@@ -1,45 +1,39 @@
 <script setup>
 import {onMounted, ref} from 'vue';
-import {useRouter} from "vue-router";
-import {listStakeholder} from '../../../services/apiService.js';
+import {listOfficialAgent} from "../../../services/apiService.js";
 import KTDatatable from "../../../components/tables/KTDatatable.vue";
 
-const router = useRouter();
-const stakeholders = ref([]);
+const officialAgents = ref([]);
 const countPage = ref(10);
 const isLoading = ref(true); // Tambahkan state loading
 const columns = ref([
   {key: 'no', label: 'No'},
+  {key: 'agentName', label: 'Official Agent'},
   {key: 'subholdingGroupAffiliate', label: 'Subholding'},
   {key: 'address', label: 'Address'},
-  {key: 'contact', label: 'Contact'},
   {key: 'stock_amount_gas', label: 'Gas Stock Amount'},
-  //{ key: 'officialAgentName', label: 'Agen Resmi' },
-  //{ key: 'createdAt', label: 'Tanggal Dibuat' },
-  //{ key: 'updatedAt', label: 'Tanggal Diperbarui' }
 ]);
 
-function setStakeholder(data) {
-  stakeholders.value = data
+function setOfficialAgents(data) {
+  officialAgents.value = data
       .sort((a, b) => b.createdAt - a.createdAt)
       .map((item, index) => ({
         no: index + 1,
         id: item.id,
-        subholdingGroupAffiliate: item.subholdingGroupAffiliate,
+        agentName: item.agentName,
         address: item.address,
-        contact: item.contact,
         stock_amount_gas: item.stock_amount_gas,
-        officialAgentName: item.officialAgentName,
+        subholdingGroupAffiliate: item.subholdingGroupAffiliate,
         createdAt: item.createdAt,
         updatedAt: item.updatedAt
       }));
 }
 
-async function fetchStakeholder() {
+async function fetchOfficialAgents() {
   try {
-    const response = await listStakeholder();
+    const response = await listOfficialAgent();
     if (response.status === 200) {
-      setStakeholder(response.data.stakeholders);
+      setOfficialAgents(response.data.officialAgent);
     }
   } catch (error) {
     console.error('Error fetching stakeholder data:', error);
@@ -49,12 +43,8 @@ async function fetchStakeholder() {
 }
 
 onMounted(async () => {
-  await fetchStakeholder();
+  await fetchOfficialAgents();
 });
-
-async function goTo(id) {
-  await router.push({name: 'stakeholder-detail', params: {id: id}});
-}
 
 </script>
 
@@ -62,16 +52,16 @@ async function goTo(id) {
   <div class="container py-5">
     <header class="mb-1 border-bottom">
       <div>
-        <span class="fs-4">Stakeholder</span>
+        <span class="fs-4">Official Agents</span>
       </div>
     </header>
 
-      <!-- Tampilkan KTDatatable -->
-      <KTDatatable :columns="columns" :data="stakeholders" :perPage="countPage" :loading="isLoading">
-        <template #actions="{ row }">
-          <button class="btn btn-outline-primary btn-sm" @click="goTo(row.id)">Detail</button>
-        </template>
-      </KTDatatable>
+    <!-- Tampilkan KTDatatable -->
+    <KTDatatable :columns="columns" :data="officialAgents" :perPage="countPage" :loading="isLoading">
+      <template #actions="{ row }">
+        <button class="btn btn-outline-primary btn-sm" @click="">Detail</button>
+      </template>
+    </KTDatatable>
 
   </div>
 </template>

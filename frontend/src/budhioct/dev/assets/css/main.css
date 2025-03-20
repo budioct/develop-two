@@ -53,3 +53,9 @@ html {
     color: #6CB52D;
     font-weight: bold;
 }
+
+/* spinner */
+.spinner-border .text-primary {
+    color: #6CB52D !important;
+}
+/* spinner */
