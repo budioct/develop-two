@@ -61,10 +61,10 @@ const isStakeholderActive = computed(() => {
                 <router-link :to="{ name: 'stakeholder' }" class="nav-link" :class="{ 'active': isStakeholderActive }">Stakeholder</router-link>
               </li>
               <li class="nav-item" v-if="isAuthenticated">
-                <router-link :to="{ name: 'home' }" class="nav-link">Home</router-link>
+                <router-link :to="{ name: 'offagent' }" class="nav-link">Official Agents</router-link>
               </li>
               <li class="nav-item" v-if="isAuthenticated">
-                <router-link :to="{ name: 'warung' }" class="nav-link">Warung</router-link>
+                <router-link :to="{ name: 'subagent' }" class="nav-link">Sub Agents</router-link>
               </li>
             </ul>
 
