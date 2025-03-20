@@ -2,11 +2,12 @@
 import {onMounted, ref} from 'vue';
 import {useRouter} from "vue-router";
 import {listStakeholder} from '../../../services/apiService.js';
-import KTDatatable from "../../../components/tables/KTDatatable.vue"
+import KTDatatable from "../../../components/tables/KTDatatable.vue";
 
 const router = useRouter();
 const stakeholders = ref([]);
-const sort = ref(10);
+const countPage = ref(10);
+const isLoading = ref(true); // Tambahkan state loading
 const columns = ref([
   {key: 'no', label: 'No'},
   {key: 'subholdingGroupAffiliate', label: 'Subholding'},
@@ -42,6 +43,8 @@ async function fetchStakeholder() {
     }
   } catch (error) {
     console.error('Error fetching stakeholder data:', error);
+  } finally {
+    isLoading.value = false; // Hentikan loading setelah data diambil
   }
 }
 
@@ -64,7 +67,7 @@ async function goTo(id) {
     </header>
 
       <!-- Tampilkan KTDatatable -->
-      <KTDatatable :columns="columns" :data="stakeholders" :perPage="sort">
+      <KTDatatable :columns="columns" :data="stakeholders" :perPage="countPage" :loading="isLoading">
         <template #actions="{ row }">
           <button class="btn btn-outline-primary btn-sm" @click="goTo(row.id)">Detail</button>
         </template>
