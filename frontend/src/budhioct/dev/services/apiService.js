@@ -55,9 +55,26 @@ const listStakeholder = async () => {
     }
 };
 
+const detailStakeholder = async (id) => {
+    try {
+        return await axios.get(urlApi.stakeholder.detail(id),
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${useAuthStore().token}`,
+                },
+            });
+    } catch (error) {
+        console.error(error);
+        throw error
+    }
+};
+
 export {
     register,
     login,
     logout,
     listStakeholder,
+    detailStakeholder,
 }
