@@ -5,6 +5,7 @@ import {listStakeholder} from '../../../services/apiService.js';
 import KTDatatable from "../../../components/tables/KTDatatable.vue";
 
 const router = useRouter();
+const from = ref('stackholder');
 const stakeholders = ref([]);
 const countPage = ref(10);
 const isLoading = ref(true); // Tambahkan state loading
@@ -28,7 +29,7 @@ function setStakeholder(data) {
         subholdingGroupAffiliate: item.subholdingGroupAffiliate,
         address: item.address,
         contact: item.contact,
-        stock_amount_gas: item.stock_amount_gas,
+        stock_amount_gas: Number(item.stock_amount_gas),
         officialAgentName: item.officialAgentName,
         createdAt: item.createdAt,
         updatedAt: item.updatedAt
@@ -52,6 +53,16 @@ onMounted(async () => {
   await fetchStakeholder();
 });
 
+const isValidStock = (stock) => {
+  if (stock <= 5000) {
+    return Number(stock) <= 5000;
+  } else if (stock <= 10000) {
+    return Number(stock) <= 10000;
+  } else {
+    return Number(stock) <= 0;
+  }
+};
+
 async function goTo(id) {
   await router.push({name: 'stakeholder-detail', params: {id: id}});
 }
@@ -67,9 +78,10 @@ async function goTo(id) {
     </header>
 
       <!-- Tampilkan KTDatatable -->
-      <KTDatatable :columns="columns" :data="stakeholders" :perPage="countPage" :loading="isLoading">
+      <KTDatatable :columns="columns" :data="stakeholders" :perPage="countPage" :loading="isLoading" :from="from">
         <template #actions="{ row }">
-          <button class="btn btn-outline-primary btn-sm" @click="goTo(row.id)">Detail</button>
+          <button class="btn btn-outline-primary btn-sm" @click="goTo(row.id)">Detail</button>&nbsp;
+          <button v-if="isValidStock(row.stock_amount_gas)" class="btn btn-outline-success btn-sm" @click="">Production</button>
         </template>
       </KTDatatable>
 
