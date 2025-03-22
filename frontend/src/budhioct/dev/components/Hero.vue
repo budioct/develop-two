@@ -12,7 +12,7 @@
 
     <div class="p-3 mb-4 bg-light rounded-3">
       <div class="container-fluid py-5">
-        <h2 class="display-7 fw-bold"><span class="dejum">GASKITA</span></h2>
+        <img :src="`/images/logo-profile.png`" alt="logo">
         <p class="col-md-8 fs-5 justify-content-between">
           Dari Elpiji 3 kg sampai Bright Gas, Kami Bikin Hidup Anda Terang!
         </p>
@@ -33,15 +33,6 @@
                 <li>Menawarkan gas non-subsidi yang bikin hidup Anda lebih terang.</li>
                 <li>Menjaga hubungan baik dengan masyarakat, meskipun kadang bikin gregetan.</li>
               </ol>
-          </div>
-          <div>
-            <h4 class="display-7 fw-bold"><span class="dejum">Ada Pantun!!!</span></h4>
-            <p class="col-md-8  justify-text">
-              Pergi ke pasar beli nanas, <br>
-              Jangan lupa bawa tabung gas. <br>
-              Harga naik makin ganas, <br>
-              Waktu kita cari mana gas mana gas.
-            </p>
           </div>
         </div>
       </div>
