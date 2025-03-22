@@ -8,7 +8,8 @@ export default {
     columns: Array, // { key: 'name', label: 'Nama' }
     data: Array,
     perPage: { type: Number, default: 10 },
-    loading: { type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
+    from: { type: String, default: '' }
   },
   setup(props, { slots }) {
     const search = ref('');
@@ -43,6 +44,15 @@ export default {
 
     const hasActions = computed(() => !!slots.actions);
 
+    const formatStockAmount = (value) => {
+      if (value <= 5000) {
+        return `<strong>${value}</strong> <span class="badge rounded-pill text-bg-danger">DANGER</span>`;
+      } else if (value <= 10000) {
+        return `<strong>${value}</strong> <span class="badge rounded-pill text-bg-warning">WARNING</span>`;
+      }
+      return value;
+    };
+
     return {
       search,
       currentPage,
@@ -50,7 +60,8 @@ export default {
       paginatedData,
       totalPages,
       hasActions,
-      changePage
+      changePage,
+      formatStockAmount,
     };
   }
 };
@@ -88,15 +99,42 @@ export default {
           <th v-for="column in columns" :key="column.key">
             {{ column.label }}
           </th>
-          <th v-if="hasActions">Aksi</th>
+          <th v-if="hasActions">Action</th>
         </tr>
         </thead>
         <tbody>
+        <!--        <tr v-for="(row, index) in paginatedData" :key="row.id">-->
+        <!--          <template v-if="from === 'stackholder'">-->
+        <!--            <td v-for="column in columns" :key="column.key">-->
+        <!--              <span v-if="column.key === 'stock_amount_gas'" v-html="formatStockAmount(row[column.key])"></span>-->
+        <!--              <template v-else-if="Array.isArray(row[column.key])">-->
+        <!--                {{ row[column.key].join(', ') }}-->
+        <!--              </template>-->
+        <!--              <template v-else>-->
+        <!--                {{ row[column.key] }}-->
+        <!--              </template>-->
+        <!--            </td>-->
+        <!--          </template>-->
+        <!--          <template v-else>-->
+        <!--            <td v-for="column in columns" :key="column.key">-->
+        <!--              <template v-if="Array.isArray(row[column.key])">-->
+        <!--                {{ row[column.key].join(', ') }}-->
+        <!--              </template>-->
+        <!--              <template v-else>-->
+        <!--                {{ row[column.key] }}-->
+        <!--              </template>-->
+        <!--            </td>-->
+        <!--          </template>-->
+        <!--          <td v-if="hasActions">-->
+        <!--            <slot name="actions" :row="row"></slot>-->
+        <!--          </td>-->
+        <!--        </tr>-->
         <tr v-for="(row, index) in paginatedData" :key="row.id">
           <td v-for="column in columns" :key="column.key">
             <template v-if="Array.isArray(row[column.key])">
               {{ row[column.key].join(', ') }}
             </template>
+            <span v-else-if="from === 'stackholder' && column.key === 'stock_amount_gas'" v-html="formatStockAmount(row[column.key])"></span>
             <template v-else>
               {{ row[column.key] }}
             </template>

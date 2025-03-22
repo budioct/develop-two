@@ -1,3 +1,7 @@
+const buildQueryParams = (params) => {
+    return new URLSearchParams(params).toString();
+};
+
 const urlApi = {
     auth: {
         register: 'http://localhost:8080/api/v1/auth/register',
@@ -14,6 +18,9 @@ const urlApi = {
     subagent: {
         list: 'http://localhost:8080/api/v1/sub-agent/fetch',
     },
+    distribute: {
+        order: (sourceStockId, targetStockId, amount) => `http://localhost:8080/api/v1/distribution/transfer/stock?${buildQueryParams({ sourceStockId, targetStockId, amount })}`,
+    }
 }
 
 export { urlApi }
