@@ -51,6 +51,12 @@ const routes = [
                 meta: {requiresAuth: true}
             },
             {
+                path: '/offagent/:id',
+                name: 'offagent-detail',
+                component: () => import('../views/pages/business/OfficialAgentsDetail.vue'),
+                meta: {requiresAuth: true}
+            },
+            {
                 path: '/subagent',
                 name: 'subagent',
                 component: () => import('../views/pages/business/SubAgents.vue'),
