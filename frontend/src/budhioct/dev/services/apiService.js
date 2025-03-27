@@ -87,6 +87,22 @@ const listOfficialAgent = async () => {
     }
 };
 
+const detailOfficialAgent = async (id) => {
+    try {
+        return await axios.get(urlApi.officialagent.detail(id),
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${useAuthStore().token}`,
+                },
+            });
+    } catch (error) {
+        console.error(error);
+        throw error
+    }
+};
+
 const listSubAgent = async () => {
     try {
         return await axios.get(urlApi.subagent.list,
@@ -125,6 +141,7 @@ export {
     listStakeholder,
     detailStakeholder,
     listOfficialAgent,
+    detailOfficialAgent,
     listSubAgent,
     distribute,
 }
