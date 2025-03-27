@@ -14,6 +14,7 @@ const urlApi = {
     },
     officialagent: {
         list: 'http://localhost:8080/api/v1/official-agent/fetch',
+        detail: (id) => `http://localhost:8080/api/v1/official-agent/${id}/detail`,
     },
     subagent: {
         list: 'http://localhost:8080/api/v1/sub-agent/fetch',
