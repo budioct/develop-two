@@ -1,8 +1,10 @@
 <script setup>
 import {onMounted, ref} from 'vue';
+import {useRouter} from "vue-router";
 import {listOfficialAgent} from "../../../services/apiService.js";
 import KTDatatable from "../../../components/tables/KTDatatable.vue";
 
+const router = useRouter();
 const officialAgents = ref([]);
 const countPage = ref(10);
 const isLoading = ref(true); // Tambahkan state loading
@@ -46,6 +48,10 @@ onMounted(async () => {
   await fetchOfficialAgents();
 });
 
+async function goTo(id) {
+  await router.push({name: 'offagent-detail', params: {id: id}});
+}
+
 </script>
 
 <template>
@@ -59,7 +65,7 @@ onMounted(async () => {
     <!-- Tampilkan KTDatatable -->
     <KTDatatable :columns="columns" :data="officialAgents" :perPage="countPage" :loading="isLoading">
       <template #actions="{ row }">
-        <button class="btn btn-outline-primary btn-sm" @click="">Detail</button>
+        <button class="btn btn-outline-primary btn-sm" @click="goTo(row.id)">Detail</button>
       </template>
     </KTDatatable>
 
