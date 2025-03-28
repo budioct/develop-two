@@ -5,6 +5,7 @@ import {listOfficialAgent} from "../../../services/apiService.js";
 import KTDatatable from "../../../components/tables/KTDatatable.vue";
 
 const router = useRouter();
+const from = ref('official-agent');
 const officialAgents = ref([]);
 const countPage = ref(10);
 const isLoading = ref(true); // Tambahkan state loading
@@ -63,7 +64,7 @@ async function goTo(id) {
     </header>
 
     <!-- Tampilkan KTDatatable -->
-    <KTDatatable :columns="columns" :data="officialAgents" :perPage="countPage" :loading="isLoading">
+    <KTDatatable :columns="columns" :data="officialAgents" :perPage="countPage" :loading="isLoading" :from="from">
       <template #actions="{ row }">
         <button class="btn btn-outline-primary btn-sm" @click="goTo(row.id)">Detail</button>
       </template>

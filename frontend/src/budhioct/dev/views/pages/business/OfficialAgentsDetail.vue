@@ -1,10 +1,11 @@
 <script setup>
 import {ref, computed, onMounted, onUnmounted} from 'vue';
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {detailOfficialAgent, distribute} from '../../../services/apiService.js';
 import {useNotification} from "../../../constants/notifications.js";
 import OfficialAgentsModal from "../../../components/modal/OfficialAgentsModal.vue"
 
+const router = useRouter();
 const route = useRoute();
 const officialAgentId = route.params.id;
 const officialAgentDetail = ref({
@@ -130,6 +131,10 @@ onUnmounted(() => {
   window.removeEventListener("resize", updateIsMobile);
 });
 
+async function goTo(id) {
+  await router.push({name: 'stakeholder-detail', params: {id: id}});
+}
+
 </script>
 
 <template>
@@ -153,7 +158,14 @@ onUnmounted(() => {
         <div class="card p-1 mb-1 mt-1 bg-light">
           <h5 class="fw-bold">{{ officialAgentDetail.agentName }}</h5>
           <p><strong>Address:</strong> {{ officialAgentDetail.address }}</p>
-          <p><strong>Subholding:</strong> {{ officialAgentDetail.stakeholder.subholdingGroupAffiliate }}</p>
+          <div class="row" style="margin-bottom: -5px">
+            <div class="col">
+              <p><strong>Subholding:</strong> {{ officialAgentDetail.stakeholder.subholdingGroupAffiliate }}</p>
+            </div>
+            <div class="col" v-if="officialAgentDetail.stock?.stock_amount <= 300 || officialAgentDetail.stock?.stock_amount <= 600">
+              <p><button class="btn btn-outline-primary btn-sm" @click="goTo(officialAgentDetail.stakeholder.id)">Request</button></p>
+            </div>
+          </div>
           <template v-if="officialAgentDetail.stock?.stock_amount === 0">
             <p><strong>Main Stock:</strong>&nbsp;
               <span class="badge bg-danger">{{ officialAgentDetail.stock?.stock_amount ?? 0 }}</span>

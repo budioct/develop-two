@@ -44,10 +44,19 @@ export default {
 
     const hasActions = computed(() => !!slots.actions);
 
-    const formatStockAmount = (value) => {
+    const formatStockAmountStakeholder = (value) => {
       if (value <= 5000) {
         return `<strong>${value}</strong> <span class="badge rounded-pill text-bg-danger">DANGER</span>`;
       } else if (value <= 10000) {
+        return `<strong>${value}</strong> <span class="badge rounded-pill text-bg-warning">WARNING</span>`;
+      }
+      return value;
+    };
+
+    const formatStockAmountOfficialAgent = (value) => {
+      if (value <= 300) {
+        return `<strong>${value}</strong> <span class="badge rounded-pill text-bg-danger">DANGER</span>`;
+      } else if (value <= 600) {
         return `<strong>${value}</strong> <span class="badge rounded-pill text-bg-warning">WARNING</span>`;
       }
       return value;
@@ -61,7 +70,8 @@ export default {
       totalPages,
       hasActions,
       changePage,
-      formatStockAmount,
+      formatStockAmountStakeholder,
+      formatStockAmountOfficialAgent,
     };
   }
 };
@@ -134,7 +144,8 @@ export default {
             <template v-if="Array.isArray(row[column.key])">
               {{ row[column.key].join(', ') }}
             </template>
-            <span v-else-if="from === 'stackholder' && column.key === 'stock_amount_gas'" v-html="formatStockAmount(row[column.key])"></span>
+            <span v-else-if="from === 'stackholder' && column.key === 'stock_amount_gas'" v-html="formatStockAmountStakeholder(row[column.key])"></span>
+            <span v-else-if="from === 'official-agent' && column.key === 'stock_amount_gas'" v-html="formatStockAmountOfficialAgent(row[column.key])"></span>
             <template v-else>
               {{ row[column.key] }}
             </template>
