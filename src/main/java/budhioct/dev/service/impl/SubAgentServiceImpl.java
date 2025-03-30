@@ -44,49 +44,6 @@ public class SubAgentServiceImpl implements SubAgentService {
         return SubAgentDTO.toSubAgentDetailResponse(subAgent);
     }
 
-//    @Transactional(readOnly = true)
-//    public SubAgentDTO.SubAgentDetailResponse getSubAgentWithTransactions(Long id) {
-//        List<SubAgentTransactionProjection> subAgent = subAgentRepository.findSubAgentWithTransactionsRaw(id);
-//        if (subAgent.isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "sub agent not found");
-//        }
-//        SubAgentTransactionProjection firstrow = subAgent.getFirst();
-//        SubAgentDTO.SubAgentDetailResponse subAgentResponse = SubAgentDTO.SubAgentDetailResponse.builder()
-//                .id(firstrow.getSubAgentId())
-//                .subAgentName(firstrow.getSubAgentName())
-//                .address(firstrow.getAddress())
-//                .stock(SubAgentDTO.StockResponse.builder()
-//                        .id(firstrow.getStockid())
-//                        .ownership(firstrow.getStockOwnership())
-//                        .stock_amount(firstrow.getStockStock_amount())
-//                        .build())
-//                .officialAgent(SubAgentDTO.OfficialAgentResponse.builder()
-//                        .id(firstrow.getOfficialAgentId())
-//                        .agentName(firstrow.getOfficialAgentAgentName())
-//                        .address(firstrow.getOfficialAgentAddress())
-//                        .stock_owner_id(firstrow.getOfficialAgentStock_owner_id())
-//                        .stock_amount_gas(firstrow.getOfficialAgentStock_amount_gas())
-//                        .subholdingGroupAffiliate(firstrow.getOfficialAgentSubholdingGroupAffiliate())
-//                        .build())
-//                .transaction(new ArrayList<>())
-//                .build();
-//
-//        SubAgentDTO.TransactionResponse data = null;
-//        for (SubAgentTransactionProjection row : subAgent) {
-//            if (row.getTransactionId() != null) {
-//                data = SubAgentDTO.TransactionResponse.builder()
-//                        .id(row.getTransactionId())
-//                        .amountGas(row.getAmountGas())
-//                        .totalPrice(row.getTotalPrice())
-//                        .transactionDate(row.getTransactionDate())
-//                        .build();
-//            }
-//            subAgentResponse.getTransaction().add(data);
-//        }
-//
-//        return firstrow;
-//    }
-
     @Transactional(readOnly = true)
     public SubAgentDTO.SubAgentDetailResponse getSubAgentWithTransactions(Long id) {
         List<SubAgentTransactionProjection> subAgentProjections = subAgentRepository.findSubAgentWithTransactionsRaw(id);
@@ -95,9 +52,7 @@ public class SubAgentServiceImpl implements SubAgentService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "sub agent not found");
         }
 
-        // Ambil data pertama sebagai referensi untuk SubAgent, Stock, dan OfficialAgent
         SubAgentTransactionProjection firstRow = subAgentProjections.getFirst();
-
         SubAgentDTO.SubAgentDetailResponse subAgentResponse = SubAgentDTO.SubAgentDetailResponse.builder()
                 .id(firstRow.getSubAgentId())
                 .subAgentName(firstRow.getSubAgentName())
@@ -115,14 +70,13 @@ public class SubAgentServiceImpl implements SubAgentService {
                         .stock_amount_gas(firstRow.getOfficialAgentStock_amount_gas())
                         .subholdingGroupAffiliate(firstRow.getOfficialAgentSubholdingGroupAffiliate())
                         .build())
-                .transaction(new ArrayList<>()) // List transaksi akan ditambahkan di bawah
+                .transaction(new ArrayList<>())
                 .createdAt(firstRow.getCreatedAt())
                 .updatedAt(firstRow.getUpdatedAt())
                 .build();
 
-        // Loop melalui semua transaksi yang ada dan tambahkan ke dalam list
         List<SubAgentDTO.TransactionResponse> transactions = subAgentProjections.stream()
-                .filter(row -> row.getTransactionId() != null) // Hindari transaksi null
+                .filter(row -> row.getTransactionId() != null)
                 .map(row -> SubAgentDTO.TransactionResponse.builder()
                         .id(row.getTransactionId())
                         .amountGas(row.getAmountGas())
@@ -135,6 +89,5 @@ public class SubAgentServiceImpl implements SubAgentService {
 
         return subAgentResponse;
     }
-
 
 }
