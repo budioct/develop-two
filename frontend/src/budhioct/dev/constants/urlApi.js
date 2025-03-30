@@ -22,6 +22,9 @@ const urlApi = {
     },
     distribute: {
         order: (sourceStockId, targetStockId, amount) => `http://localhost:8080/api/v1/distribution/transfer/stock?${buildQueryParams({ sourceStockId, targetStockId, amount })}`,
+    },
+    transaction: {
+        list: 'http://localhost:8080/api/v1/transaction/fetch',
     }
 }
 

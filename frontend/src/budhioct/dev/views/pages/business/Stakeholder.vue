@@ -22,7 +22,7 @@ const columns = ref([
 
 function setStakeholder(data) {
   stakeholders.value = data
-      .sort((a, b) => b.createdAt - a.createdAt)
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       .map((item, index) => ({
         no: index + 1,
         id: item.id,

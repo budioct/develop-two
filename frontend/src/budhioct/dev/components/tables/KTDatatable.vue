@@ -62,6 +62,15 @@ export default {
       return value;
     };
 
+    const formatStockAmountSubAgent = (value) => {
+      if (value <= 9) {
+        return `<strong>${value}</strong> <span class="badge rounded-pill text-bg-danger">DANGER</span>`;
+      } else if (value <= 13) {
+        return `<strong>${value}</strong> <span class="badge rounded-pill text-bg-warning">WARNING</span>`;
+      }
+      return value;
+    };
+
     return {
       search,
       currentPage,
@@ -72,6 +81,7 @@ export default {
       changePage,
       formatStockAmountStakeholder,
       formatStockAmountOfficialAgent,
+      formatStockAmountSubAgent,
     };
   }
 };
@@ -146,6 +156,7 @@ export default {
             </template>
             <span v-else-if="from === 'stackholder' && column.key === 'stock_amount_gas'" v-html="formatStockAmountStakeholder(row[column.key])"></span>
             <span v-else-if="from === 'official-agent' && column.key === 'stock_amount_gas'" v-html="formatStockAmountOfficialAgent(row[column.key])"></span>
+            <span v-else-if="from === 'sub-agent' && column.key === 'stock_amount_gas'" v-html="formatStockAmountSubAgent(row[column.key])"></span>
             <template v-else>
               {{ row[column.key] }}
             </template>

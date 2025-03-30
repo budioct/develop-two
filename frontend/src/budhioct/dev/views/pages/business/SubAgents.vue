@@ -5,6 +5,7 @@ import KTDatatable from "../../../components/tables/KTDatatable.vue";
 import {useRouter} from "vue-router";
 
 const router = useRouter();
+const from = ref('sub-agent');
 const subAgents = ref([]);
 const countPage = ref(10);
 const isLoading = ref(true); // Tambahkan state loading
@@ -15,7 +16,6 @@ const columns = ref([
   {key: 'address', label: 'Address'},
   {key: 'stock_amount_gas', label: 'Gas Stock Amount'},
 ]);
-
 
 function setSubAgents(data) {
   subAgents.value = data
@@ -64,7 +64,7 @@ async function goTo(id) {
     </header>
 
     <!-- Tampilkan KTDatatable -->
-    <KTDatatable :columns="columns" :data="subAgents" :perPage="countPage" :loading="isLoading">
+    <KTDatatable :columns="columns" :data="subAgents" :perPage="countPage" :loading="isLoading" :from="from">
       <template #actions="{ row }">
         <button class="btn btn-outline-primary btn-sm" @click="goTo(row.id)">Detail</button>
       </template>
