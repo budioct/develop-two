@@ -3,6 +3,7 @@ package budhioct.dev.dto;
 import budhioct.dev.entity.OfficialAgent;
 import budhioct.dev.entity.Stock;
 import budhioct.dev.entity.SubAgent;
+import budhioct.dev.entity.Transaction;
 import budhioct.dev.utilities.Ownership;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class SubAgentDTO {
 
@@ -37,6 +39,7 @@ public class SubAgentDTO {
         private String address;
         private StockResponse stock;
         private OfficialAgentResponse officialAgent;
+        private List<TransactionResponse> transaction;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime createdAt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -64,6 +67,18 @@ public class SubAgentDTO {
         private Long stock_amount;
     }
 
+    @Getter
+    @Setter
+    @Builder
+    public static class TransactionResponse {
+        private Long id;
+        private Long amountGas;
+        private Double totalPrice;
+        private String transactionStatus;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+        private LocalDateTime transactionDate;
+    }
+
     public static SubAgentResponse toSubAgentResponse(SubAgent subAgent) {
         return SubAgentResponse.builder()
                 .id(subAgent.getId())
@@ -83,6 +98,7 @@ public class SubAgentDTO {
                 .address(subAgent.getAddress())
                 .stock(toStockResponse(subAgent.getStock()))
                 .officialAgent(toOfficialAgentResponse(subAgent.getOfficialAgent()))
+                .transaction(subAgent.getTransactions().stream().map(SubAgentDTO::toTransactionResponse).toList())
                 .createdAt(subAgent.getCreatedAt())
                 .updatedAt(subAgent.getUpdatedAt())
                 .build();
@@ -107,4 +123,13 @@ public class SubAgentDTO {
                 .build();
     }
 
+    public static TransactionResponse toTransactionResponse(Transaction transaction){
+        return TransactionResponse.builder()
+                .id(transaction.getId())
+                .amountGas(transaction.getAmountGas())
+                .totalPrice(transaction.getTotalPrice())
+                .transactionStatus(transaction.getSubAgent().getStock().getLogStocks().getLast().getStatus())
+                .transactionDate(transaction.getDate())
+                .build();
+    }
 }
