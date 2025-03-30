@@ -2,7 +2,9 @@
 import {onMounted, ref} from 'vue';
 import {listSubAgent} from '../../../services/apiService.js';
 import KTDatatable from "../../../components/tables/KTDatatable.vue";
+import {useRouter} from "vue-router";
 
+const router = useRouter();
 const subAgents = ref([]);
 const countPage = ref(10);
 const isLoading = ref(true); // Tambahkan state loading
@@ -47,6 +49,10 @@ onMounted(async () => {
   await fetchSubAgents();
 });
 
+async function goTo(id) {
+  await router.push({name: 'subagent-detail', params: {id: id}});
+}
+
 </script>
 
 <template>
@@ -60,7 +66,7 @@ onMounted(async () => {
     <!-- Tampilkan KTDatatable -->
     <KTDatatable :columns="columns" :data="subAgents" :perPage="countPage" :loading="isLoading">
       <template #actions="{ row }">
-        <button class="btn btn-outline-primary btn-sm" @click="">Detail</button>
+        <button class="btn btn-outline-primary btn-sm" @click="goTo(row.id)">Detail</button>
       </template>
     </KTDatatable>
 
