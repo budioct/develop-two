@@ -135,6 +135,22 @@ const detailSubAgent = async (id) => {
     }
 };
 
+const listTransaction = async () => {
+    try {
+        return await axios.get(urlApi.transaction.list,
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${useAuthStore().token}`,
+                },
+            });
+    } catch (error) {
+        console.error(error);
+        throw error
+    }
+};
+
 const distribute = async (sourceStockId, targetStockId, amount) => {
     try {
         return await axios.post(urlApi.distribute.order(sourceStockId, targetStockId, amount), {}, {
@@ -160,5 +176,6 @@ export {
     detailOfficialAgent,
     listSubAgent,
     detailSubAgent,
+    listTransaction,
     distribute,
 }
