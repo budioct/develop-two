@@ -158,7 +158,7 @@ async function goTo(id) {
         <div class="card p-1 mb-1 mt-1 bg-light">
           <h5 class="fw-bold">{{ officialAgentDetail.agentName }}</h5>
           <p><strong>Address:</strong> {{ officialAgentDetail.address }}</p>
-          <div class="row" style="margin-bottom: -5px">
+          <div class="row">
             <div class="col">
               <p><strong>Subholding:</strong> {{ officialAgentDetail.stakeholder.subholdingGroupAffiliate }}</p>
             </div>
@@ -172,7 +172,7 @@ async function goTo(id) {
               ({{ officialAgentDetail.stock?.ownership ?? 'Unknown' }})
             </p>
           </template>
-          <template v-else-if="officialAgentDetail.stock?.stock_amount > -1 && officialAgentDetail.stock?.stock_amount <= 300">
+          <template v-else-if="officialAgentDetail.stock?.stock_amount > 0 && officialAgentDetail.stock?.stock_amount <= 300">
             <p><strong>Main Stock:</strong>&nbsp;
               <span class="badge text-bg-danger">{{ officialAgentDetail.stock?.stock_amount ?? 0 }}</span>
               ({{ officialAgentDetail.stock?.ownership ?? 'Unknown' }})

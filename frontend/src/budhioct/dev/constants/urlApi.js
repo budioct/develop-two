@@ -18,6 +18,7 @@ const urlApi = {
     },
     subagent: {
         list: 'http://localhost:8080/api/v1/sub-agent/fetch',
+        detail: (id) => `http://localhost:8080/api/v1/sub-agent/${id}/detail`,
     },
     distribute: {
         order: (sourceStockId, targetStockId, amount) => `http://localhost:8080/api/v1/distribution/transfer/stock?${buildQueryParams({ sourceStockId, targetStockId, amount })}`,
