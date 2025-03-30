@@ -63,6 +63,12 @@ const routes = [
                 meta: {requiresAuth: true}
             },
             {
+                path: '/subagent/:id',
+                name: 'subagent-detail',
+                component: () => import('../views/pages/business/SubAgentsDetail.vue'),
+                meta: {requiresAuth: true}
+            },
+            {
                 path: '/warung',
                 name: 'warung',
                 component: () => import('../views/pages/Warung.vue'),
