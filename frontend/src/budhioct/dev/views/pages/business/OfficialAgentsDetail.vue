@@ -163,12 +163,18 @@ async function goTo(id) {
               <p><strong>Subholding:</strong> {{ officialAgentDetail.stakeholder.subholdingGroupAffiliate }}</p>
             </div>
             <div class="col" v-if="officialAgentDetail.stock?.stock_amount <= 300 || officialAgentDetail.stock?.stock_amount <= 600">
-              <p><button class="btn btn-outline-primary btn-sm" @click="goTo(officialAgentDetail.stakeholder.id)">Request</button></p>
+              <p><button class="btn btn-outline-primary btn-sm" @click="goTo(officialAgentDetail.stakeholder.id)">Request Re-Stock</button></p>
             </div>
           </div>
-          <template v-if="officialAgentDetail.stock?.stock_amount === 0">
+          <template v-if="officialAgentDetail.stock?.stock_amount >= 301 && officialAgentDetail.stock?.stock_amount <= 600">
             <p><strong>Main Stock:</strong>&nbsp;
-              <span class="badge bg-danger">{{ officialAgentDetail.stock?.stock_amount ?? 0 }}</span>
+              <span class="badge text-bg-warning">{{ officialAgentDetail.stock?.stock_amount ?? 0 }}</span>
+              ({{ officialAgentDetail.stock?.ownership ?? 'Unknown' }})
+            </p>
+          </template>
+          <template v-else-if="officialAgentDetail.stock?.stock_amount > -1 && officialAgentDetail.stock?.stock_amount <= 300">
+            <p><strong>Main Stock:</strong>&nbsp;
+              <span class="badge text-bg-danger">{{ officialAgentDetail.stock?.stock_amount ?? 0 }}</span>
               ({{ officialAgentDetail.stock?.ownership ?? 'Unknown' }})
             </p>
           </template>
@@ -180,7 +186,7 @@ async function goTo(id) {
       <div class="col">
         <!-- Info Affiliate -->
         <div class="card p-1 mb-1 mt-1 bg-light">
-          <h5 class="fw-bold">Affiliate Sub Agent</h5>
+          <h5 class="fw-bold">Affiliate Official Agents</h5>
           <p><strong>List Total Affiliate:</strong> {{ officialAgentDetail.subAgentName.length }} </p>
           <p><strong>Total Stock Gas Affiliate:</strong> {{ totalStock }}</p>
         </div>

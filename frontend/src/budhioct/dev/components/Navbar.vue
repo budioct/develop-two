@@ -32,6 +32,10 @@ const isOfficialAgentActive = computed(() => {
   return route.name === "offagent" || route.name === "offagent-detail";
 });
 
+const isSubAgentActive = computed(() => {
+  return route.name === "subagent" || route.name === "subagent-detail";
+});
+
 </script>
 
 <template>
@@ -68,7 +72,7 @@ const isOfficialAgentActive = computed(() => {
                 <router-link :to="{ name: 'offagent' }" class="nav-link" :class="{ 'active': isOfficialAgentActive }">Official Agents</router-link>
               </li>
               <li class="nav-item" v-if="isAuthenticated">
-                <router-link :to="{ name: 'subagent' }" class="nav-link">Sub Agents</router-link>
+                <router-link :to="{ name: 'subagent' }" class="nav-link" :class="{ 'active': isSubAgentActive }">Sub Agents</router-link>
               </li>
             </ul>
 

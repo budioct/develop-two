@@ -15,7 +15,7 @@ const stakeholderDetail = ref({
   stock: {
     id: null,
     ownership: '',
-    stock_amount: 0
+    stock_amount: null,
   },
   officialAgents: [],
   createdAt: '',
@@ -101,6 +101,10 @@ async function handleSave(data) {
   }
 }
 
+function updateIsMobile() {
+  isMobile.value = window.innerWidth <= 768;
+}
+
 onMounted(async () => {
   await fetchStakeholderDetail();
   window.addEventListener("resize", updateIsMobile);
@@ -109,10 +113,6 @@ onMounted(async () => {
 onUnmounted(() => {
   window.removeEventListener("resize", updateIsMobile);
 });
-
-function updateIsMobile() {
-  isMobile.value = window.innerWidth <= 768;
-}
 
 </script>
 
@@ -138,9 +138,15 @@ function updateIsMobile() {
           <h5 class="fw-bold">{{ stakeholderDetail.subholdingGroupAffiliate }}</h5>
           <p><strong>Address:</strong> {{ stakeholderDetail.address }}</p>
           <p><strong>Contact:</strong> {{ stakeholderDetail.contact }}</p>
-          <template v-if="stakeholderDetail.stock?.stock_amount === 0">
+          <template v-if="stakeholderDetail.stock?.stock_amount > -1 && stakeholderDetail.stock?.stock_amount <= 5000">
             <p><strong>Main Stock:</strong>&nbsp;
-              <span class="badge bg-danger">{{ stakeholderDetail.stock?.stock_amount ?? 0 }}</span>
+              <span class="badge text-bg-danger">{{ stakeholderDetail.stock?.stock_amount ?? 0 }}</span>
+              ({{ stakeholderDetail.stock?.ownership ?? 'Unknown' }})
+            </p>
+          </template>
+          <template v-else-if="stakeholderDetail.stock?.stock_amount >= 5001 && stakeholderDetail.stock?.stock_amount <= 10000">
+            <p><strong>Main Stock:</strong>&nbsp;
+              <span class="badge text-bg-warning">{{ stakeholderDetail.stock?.stock_amount ?? 0 }}</span>
               ({{ stakeholderDetail.stock?.ownership ?? 'Unknown' }})
             </p>
           </template>
