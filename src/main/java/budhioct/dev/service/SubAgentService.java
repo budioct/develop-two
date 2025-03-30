@@ -8,4 +8,5 @@ public interface SubAgentService {
 
     List<SubAgentDTO.SubAgentResponse> listSubAgent();
     SubAgentDTO.SubAgentDetailResponse detailSubAgentDetail(Long id);
+    SubAgentDTO.SubAgentDetailResponse getSubAgentWithTransactions(Long id);
 }

@@ -51,4 +51,18 @@ public class SubAgentRestController {
                 .build();
     }
 
+    @GetMapping(
+            path = "/{id}/detail/projection",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @PreAuthorize("hasAnyAuthority('user:read')")
+    public RestResponse.object<SubAgentDTO.SubAgentDetailResponse> detailSubAgentWithTransactions(@PathVariable(name = "id") Long id) {
+        SubAgentDTO.SubAgentDetailResponse subAgent = subAgentService.getSubAgentWithTransactions(id);
+        return RestResponse.object.<SubAgentDTO.SubAgentDetailResponse>builder()
+                .data(subAgent)
+                .status_code(Constants.OK)
+                .message(Constants.ITEM_EXIST_MESSAGE)
+                .build();
+    }
+
 }
