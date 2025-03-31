@@ -138,7 +138,7 @@ onUnmounted(() => {
           <h5 class="fw-bold">{{ stakeholderDetail.subholdingGroupAffiliate }}</h5>
           <p><strong>Address:</strong> {{ stakeholderDetail.address }}</p>
           <p><strong>Contact:</strong> {{ stakeholderDetail.contact }}</p>
-          <template v-if="stakeholderDetail.stock?.stock_amount === 0 || stakeholderDetail.stock?.stock_amount > 0 || stakeholderDetail.stock?.stock_amount <= 5000">
+          <template v-if="stakeholderDetail.stock?.stock_amount === 0 || stakeholderDetail.stock?.stock_amount > 0 && stakeholderDetail.stock?.stock_amount <= 5000">
             <p><strong>Main Stock:</strong>&nbsp;
               <span class="badge text-bg-danger">{{ stakeholderDetail.stock?.stock_amount ?? 0 }}</span>
               ({{ stakeholderDetail.stock?.ownership ?? 'Unknown' }})

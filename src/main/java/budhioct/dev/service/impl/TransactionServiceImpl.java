@@ -40,7 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
         subAgentStock.setStock_amount(subAgentStock.getStock_amount() - amountGas);
         stockRepository.save(subAgentStock);
 
-        logStockChange(subAgentStock, amountGas, "BUY");
+        logStockChange(subAgentStock, amountGas, "SOLD");
 
         logTransaction(subAgent, folksy, amountGas, pricePerUnit);
 
