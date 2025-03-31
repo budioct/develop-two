@@ -172,7 +172,7 @@ async function goTo(id) {
               ({{ officialAgentDetail.stock?.ownership ?? 'Unknown' }})
             </p>
           </template>
-          <template v-else-if="officialAgentDetail.stock?.stock_amount > 0 && officialAgentDetail.stock?.stock_amount <= 300">
+          <template v-else-if="officialAgentDetail.stock?.stock_amount === 0 ||officialAgentDetail.stock?.stock_amount > 0 || officialAgentDetail.stock?.stock_amount <= 300">
             <p><strong>Main Stock:</strong>&nbsp;
               <span class="badge text-bg-danger">{{ officialAgentDetail.stock?.stock_amount ?? 0 }}</span>
               ({{ officialAgentDetail.stock?.ownership ?? 'Unknown' }})

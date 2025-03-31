@@ -133,7 +133,7 @@ async function goTo(id) {
               <p><button class="btn btn-outline-primary btn-sm" @click="goTo(subAgentDetail.officialAgent.id)">Request Re-Stock</button></p>
             </div>
           </div>
-          <template v-if="subAgentDetail.stock?.stock_amount > 0 && subAgentDetail.stock?.stock_amount <= 8">
+          <template v-if="subAgentDetail.stock?.stock_amount === 0 || subAgentDetail.stock?.stock_amount > 0 || subAgentDetail.stock?.stock_amount <= 8">
             <p><strong>Main Stock:</strong>&nbsp;
               <span class="badge text-bg-danger">{{ subAgentDetail.stock.stock_amount }}</span> ({{ subAgentDetail.stock.ownership ?? 'Unknown' }})
             </p>
