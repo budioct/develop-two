@@ -1,9 +1,6 @@
 package budhioct.dev.dto;
 
-import budhioct.dev.entity.OfficialAgent;
-import budhioct.dev.entity.Stock;
-import budhioct.dev.entity.SubAgent;
-import budhioct.dev.entity.Transaction;
+import budhioct.dev.entity.*;
 import budhioct.dev.utilities.Ownership;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
@@ -124,11 +121,16 @@ public class SubAgentDTO {
     }
 
     public static TransactionResponse toTransactionResponse(Transaction transaction){
+        LogStock logStock = transaction.getSubAgent().getStock().getLogStocks()
+                .stream()
+                .filter(log -> log.getDate().isBefore(transaction.getDate()) || log.getDate().isEqual(transaction.getDate()))
+                .reduce((first, second) -> second)
+                .orElse(null);
         return TransactionResponse.builder()
                 .id(transaction.getId())
                 .amountGas(transaction.getAmountGas())
                 .totalPrice(transaction.getTotalPrice())
-                .transactionStatus(transaction.getSubAgent().getStock().getLogStocks().getLast().getStatus())
+                .transactionStatus(logStock != null ? logStock.getStatus() : "UNKNOWN")
                 .transactionDate(transaction.getDate())
                 .build();
     }
