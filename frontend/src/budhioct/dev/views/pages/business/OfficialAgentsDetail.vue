@@ -8,6 +8,9 @@ import OfficialAgentsModal from "../../../components/modal/OfficialAgentsModal.v
 const router = useRouter();
 const route = useRoute();
 const officialAgentId = route.params.id;
+const highlightedSubAgentName = route.query.highlightedSubAgentName;
+const highlightedName = ref(highlightedSubAgentName || null);
+const newHighlightedSubAgentDistribute = ref(null);
 const officialAgentDetail = ref({
   id: null,
   agentName: '',
@@ -109,6 +112,13 @@ async function handleSave(data) {
       const response = await distribute(payload.sourceStockId, payload.targetStockId, payload.amount);
       if (response.status === 200) {
         await fetchOfficialAgentDetail();
+
+        newHighlightedSubAgentDistribute.value = selectedOfficialAgentDetail.value.no;
+
+        setTimeout(() => {
+          newHighlightedSubAgentDistribute.value = null;
+        }, 5000);
+
         useNotification.success("Success", "Distribusi Berhasil.");
       }
     }
@@ -125,14 +135,25 @@ function updateIsMobile() {
 
 onMounted(async () => {
   await fetchOfficialAgentDetail();
+
+  if (highlightedName.value) {
+    setTimeout(() => {
+      highlightedName.value = null;
+      router.replace({
+        name: route.name,
+        params: route.params,
+        query: {}
+      });
+    }, 5000);
+  }
 });
 
 onUnmounted(() => {
   window.removeEventListener("resize", updateIsMobile);
 });
 
-async function goTo(id) {
-  await router.push({name: 'stakeholder-detail', params: {id: id}});
+async function goTo(id, name) {
+  await router.push({name: 'stakeholder-detail', params: {id: id}, query: {highlightedOfficialAgentName: name}});
 }
 
 </script>
@@ -163,7 +184,7 @@ async function goTo(id) {
               <p><strong>Subholding:</strong> {{ officialAgentDetail.stakeholder.subholdingGroupAffiliate }}</p>
             </div>
             <div class="col" v-if="officialAgentDetail.stock?.stock_amount <= 300 || officialAgentDetail.stock?.stock_amount <= 600">
-              <p><button class="btn btn-outline-primary btn-sm" @click="goTo(officialAgentDetail.stakeholder.id)">Request Re-Stock</button></p>
+              <p><button class="btn btn-outline-primary btn-sm" @click="goTo(officialAgentDetail.stakeholder.id, officialAgentDetail.agentName)">Request Re-Stock</button></p>
             </div>
           </div>
           <template v-if="officialAgentDetail.stock?.stock_amount >= 301 && officialAgentDetail.stock?.stock_amount <= 600">
@@ -221,11 +242,24 @@ async function goTo(id) {
           <tbody>
           <tr v-for="agent in officialAgentDetail.subAgentName" :key="agent.id">
             <td>{{ agent.no }}</td>
-            <td>{{ agent.subAgentName }}</td>
+            <td>
+              {{ agent.subAgentName }}
+              <span v-if="highlightedName === agent.subAgentName" class="badge bg-primary ms-2 badge-animated">New Request ReStock</span>
+              <span v-else-if="newHighlightedSubAgentDistribute === agent.no" class="badge bg-primary ms-2 badge-animated"> New ReStock </span>
+            </td>
             <td>{{ agent.address }}</td>
             <td>{{ agent.stock_amount_gas }}</td>
             <td v-if="officialAgentDetail.stock?.stock_amount !== 0">
-              <button class="btn btn-outline-primary btn-sm" @click="openModal('distribute', agent)">Distribute</button>
+              <template v-if="highlightedName === agent.subAgentName">
+                <button type="button" class="btn btn-outline-primary btn-sm position-relative" @click="openModal('distribute', agent)">
+                  Distribute
+                  <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                  <span class="visually-hidden">New alerts</span></span>
+                </button>
+              </template>
+              <template v-else>
+                <button class="btn btn-outline-primary btn-sm" @click="openModal('distribute', agent)">Distribute</button>
+              </template>
             </td>
           </tr>
           </tbody>
@@ -243,10 +277,21 @@ async function goTo(id) {
       <div class="row">
         <div class="col-12 col-md-6 mb-3" v-for="agent in officialAgentDetail.subAgentName" :key="agent.id">
           <div class="card p-3 shadow-sm">
-            <h6 class="fw-bold">{{ agent.agentName }}</h6>
+            <h6 class="fw-bold">{{ agent.agentName }} <span v-if="highlightedName === agent.subAgentName" class="badge bg-primary ms-2 badge-animated">New Request ReStock</span> <span v-else-if="newHighlightedSubAgentDistribute === agent.no" class="badge bg-primary ms-2 badge-animated"> New ReStock </span> </h6>
             <p><strong>Address:</strong> {{ agent.address }}</p>
             <p><strong>Stock Gas:</strong> {{ agent.stock_amount_gas }}</p>
-            <p v-if="officialAgentDetail.stock?.stock_amount !== 0"><button class="btn btn-outline-primary btn-sm" @click="openModal('distribute', agent)">Distribute</button></p>
+            <p v-if="officialAgentDetail.stock?.stock_amount !== 0">
+              <template v-if="highlightedName === agent.subAgentName">
+                <button type="button" class="btn btn-outline-primary btn-sm position-relative" @click="openModal('distribute', agent)">
+                  Distribute
+                  <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                  <span class="visually-hidden">New alerts</span></span>
+                </button>
+              </template>
+              <template v-else>
+                <button class="btn btn-outline-primary btn-sm" @click="openModal('distribute', agent)">Distribute</button>
+              </template>
+            </p>
           </div>
         </div>
       </div>
