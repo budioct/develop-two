@@ -8,5 +8,6 @@ public interface StakeholderService {
 
     List<StakeholderDTO.StakeholderResponse> listStakeholder();
     StakeholderDTO.StakeholderDetailResponse detailStakeholder(Long id);
+    StakeholderDTO.StakeholderDetailResponse reProductionStock(Long id);
 
 }
