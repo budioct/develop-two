@@ -1,8 +1,9 @@
 <script setup>
 import {onMounted, ref} from 'vue';
 import {useRouter} from "vue-router";
-import {listStakeholder} from '../../../services/apiService.js';
+import {listStakeholder, productionStakeholder} from '../../../services/apiService.js';
 import KTDatatable from "../../../components/tables/KTDatatable.vue";
+import {useNotification} from "../../../constants/notifications.js";
 
 const router = useRouter();
 const from = ref('stackholder');
@@ -19,6 +20,7 @@ const columns = ref([
   //{ key: 'createdAt', label: 'Tanggal Dibuat' },
   //{ key: 'updatedAt', label: 'Tanggal Diperbarui' }
 ]);
+const newTransactionId = ref(null);
 
 function setStakeholder(data) {
   stakeholders.value = data
@@ -38,6 +40,7 @@ function setStakeholder(data) {
 
 async function fetchStakeholder() {
   try {
+    isLoading.value = true;
     const response = await listStakeholder();
     if (response.status === 200) {
       setStakeholder(response.data.stakeholders);
@@ -67,21 +70,44 @@ async function goTo(id) {
   await router.push({name: 'stakeholder-detail', params: {id: id}});
 }
 
+async function reProduction(id) {
+  try {
+    const response = await productionStakeholder(id);
+    if (response.status === 200) {
+      await fetchStakeholder();
+
+      newTransactionId.value = id;
+      console.log(newTransactionId.value);
+
+      // Reset setelah 5 detik
+      setTimeout(() => {
+        newTransactionId.value = null;
+      }, 5000);
+
+      useNotification.success("Success", "Re-Production Berhasil.");
+    } else {
+      useNotification.error("Error", "Re-Production Gagal.");
+    }
+  } catch (error) {
+    console.error('Error fetching stakeholder data:', error);
+  }
+}
+
 </script>
 
 <template>
   <div class="container py-5">
     <header class="mb-1 border-bottom">
       <div>
-        <span class="fs-4">Stakeholder</span>
+        <span class="fs-4">Holding</span>
       </div>
     </header>
 
       <!-- Tampilkan KTDatatable -->
-      <KTDatatable :columns="columns" :data="stakeholders" :perPage="countPage" :loading="isLoading" :from="from">
+      <KTDatatable :columns="columns" :data="stakeholders" :perPage="countPage" :loading="isLoading" :from="from" :highlightedProses="newTransactionId">
         <template #actions="{ row }">
           <button class="btn btn-outline-primary btn-sm" @click="goTo(row.id)">Detail</button>&nbsp;
-          <button v-if="isValidStock(row.stock_amount_gas)" class="btn btn-outline-success btn-sm" @click="">Production</button>
+          <button v-if="isValidStock(row.stock_amount_gas)" class="btn btn-outline-success btn-sm" @click="reProduction(row.id)">Re-Production</button>
         </template>
       </KTDatatable>
 
