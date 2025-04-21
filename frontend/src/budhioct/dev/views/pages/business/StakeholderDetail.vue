@@ -1,12 +1,16 @@
 <script setup>
 import {ref, computed, onMounted, onUnmounted} from 'vue';
-import {useRoute} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 import {detailStakeholder, distribute} from '../../../services/apiService.js';
 import StakeholderModal from "../../../components/modal/StakeholderModal.vue";
 import {useNotification} from "../../../constants/notifications.js";
 
+const router = useRouter();
 const route = useRoute();
 const stackholderId = route.params.id;
+const highlightedOfficialAgentName = route.query.highlightedOfficialAgentName;
+const highlightedName = ref(highlightedOfficialAgentName || null);
+const newHighlightedStakeholderDistribute = ref(null);
 const stakeholderDetail = ref({
   id: null,
   subholdingGroupAffiliate: '',
@@ -91,6 +95,13 @@ async function handleSave(data) {
       const response = await distribute(payload.sourceStockId, payload.targetStockId, payload.amount);
       if (response.status === 200) {
         await fetchStakeholderDetail();
+
+        newHighlightedStakeholderDistribute.value = selectedStakeholderDetail.value.no;
+
+        setTimeout(() => {
+          newHighlightedStakeholderDistribute.value = null;
+        }, 5000);
+
         useNotification.success("Success", "Distribusi Berhasil.");
       }
     }
@@ -107,6 +118,18 @@ function updateIsMobile() {
 
 onMounted(async () => {
   await fetchStakeholderDetail();
+
+  if (highlightedName.value) {
+    setTimeout(() => {
+      highlightedName.value = null;
+      router.replace({
+        name: route.name,
+        params: route.params,
+        query: {}
+      });
+    }, 5000);
+  }
+
   window.addEventListener("resize", updateIsMobile);
 });
 
@@ -120,7 +143,7 @@ onUnmounted(() => {
   <div class="container py-5">
     <header class="mb-1 border-bottom">
       <div>
-        <span class="fs-4">Stakeholder Detail</span>
+        <span class="fs-4">Holding Detail</span>
       </div>
     </header>
 
@@ -193,11 +216,24 @@ onUnmounted(() => {
           <tbody>
           <tr v-for="agent in stakeholderDetail.officialAgents" :key="agent.id">
             <td>{{ agent.no }}</td>
-            <td>{{ agent.agentName }}</td>
+            <td>
+              {{ agent.agentName }}
+              <span v-if="highlightedName === agent.agentName" class="badge bg-primary ms-2 badge-animated"> New Request ReStock </span>
+              <span v-else-if="newHighlightedStakeholderDistribute === agent.no" class="badge bg-primary ms-2 badge-animated"> New ReStock </span>
+            </td>
             <td>{{ agent.address }}</td>
             <td>{{ agent.stock_amount_gas }}</td>
             <td v-if="stakeholderDetail.stock?.stock_amount !== 0">
-              <button class="btn btn-outline-primary btn-sm" @click="openModal('distribute', agent)">Distribute</button>
+              <template v-if="highlightedName === agent.agentName">
+                <button type="button" class="btn btn-outline-primary btn-sm position-relative" @click="openModal('distribute', agent)">
+                  Distribute
+                  <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                  <span class="visually-hidden">New alerts</span></span>
+                </button>
+              </template>
+              <template v-else>
+                <button class="btn btn-outline-primary btn-sm" @click="openModal('distribute', agent)">Distribute</button>
+              </template>
             </td>
           </tr>
           </tbody>
@@ -215,10 +251,21 @@ onUnmounted(() => {
       <div class="row">
         <div class="col-12 col-md-6 mb-3" v-for="agent in stakeholderDetail.officialAgents" :key="agent.id">
           <div class="card p-3 shadow-sm">
-            <h6 class="fw-bold">{{ agent.agentName }}</h6>
+            <h6 class="fw-bold">{{ agent.agentName }} <span v-if="highlightedName === agent.agentName" class="badge bg-primary ms-2 badge-animated">New Request ReStock</span> <span v-else-if="newHighlightedStakeholderDistribute === agent.no" class="badge bg-primary ms-2 badge-animated"> New ReStock </span> </h6>
             <p><strong>Address:</strong> {{ agent.address }}</p>
             <p><strong>Stock Gas:</strong> {{ agent.stock_amount_gas }}</p>
-            <p v-if="stakeholderDetail.stock?.stock_amount !== 0"><button class="btn btn-outline-primary btn-sm" @click="openModal('distribute', agent)">Distribute</button></p>
+            <p v-if="stakeholderDetail.stock?.stock_amount !== 0">
+              <template v-if="highlightedName === agent.agentName">
+                <button type="button" class="btn btn-outline-primary btn-sm position-relative" @click="openModal('distribute', agent)">
+                  Distribute
+                  <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                  <span class="visually-hidden">New alerts</span></span>
+                </button>
+              </template>
+              <template v-else>
+                <button class="btn btn-outline-primary btn-sm" @click="openModal('distribute', agent)">Distribute</button>
+              </template>
+            </p>
           </div>
         </div>
       </div>
