@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +41,20 @@ public class StakeholderRestController {
     @PreAuthorize("hasAnyAuthority('user:read')")
     public RestResponse.object<StakeholderDTO.StakeholderDetailResponse> detailStakeholder(@PathVariable(name = "id") Long id) {
         StakeholderDTO.StakeholderDetailResponse stakeholder = stakeholderService.detailStakeholder(id);
+        return RestResponse.object.<StakeholderDTO.StakeholderDetailResponse>builder()
+                .data(stakeholder)
+                .status_code(Constants.OK)
+                .message(Constants.ITEM_EXIST_MESSAGE)
+                .build();
+    }
+
+    @PostMapping(
+            path = "{id}/re-production",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @PreAuthorize("hasAnyAuthority('user:create')")
+    public RestResponse.object<StakeholderDTO.StakeholderDetailResponse> reProductionStock(@PathVariable(name = "id") Long id) {
+        StakeholderDTO.StakeholderDetailResponse stakeholder = stakeholderService.reProductionStock(id);
         return RestResponse.object.<StakeholderDTO.StakeholderDetailResponse>builder()
                 .data(stakeholder)
                 .status_code(Constants.OK)
