@@ -9,7 +9,8 @@ export default {
     data: Array,
     perPage: { type: Number, default: 10 },
     loading: { type: Boolean, default: false },
-    from: { type: String, default: '' }
+    from: { type: String, default: '' },
+    highlightedProses: Number,
   },
   setup(props, { slots }) {
     const search = ref('');
@@ -157,6 +158,14 @@ export default {
             <span v-else-if="from === 'stackholder' && column.key === 'stock_amount_gas'" v-html="formatStockAmountStakeholder(row[column.key])"></span>
             <span v-else-if="from === 'official-agent' && column.key === 'stock_amount_gas'" v-html="formatStockAmountOfficialAgent(row[column.key])"></span>
             <span v-else-if="from === 'sub-agent' && column.key === 'stock_amount_gas'" v-html="formatStockAmountSubAgent(row[column.key])"></span>
+            <template v-else-if="from === 'stackholder' && column.key === 'subholdingGroupAffiliate'">
+              {{ row[column.key] }}
+              <span v-if="row.id === highlightedProses" class="badge bg-success ms-2 badge-animated"> New Stock </span>
+            </template>
+            <template v-else-if="column.key === 'transactionDate'">
+              {{ row[column.key] }}
+              <span v-if="row.id === highlightedProses" class="badge bg-success ms-2 badge-animated"> New </span>
+            </template>
             <template v-else>
               {{ row[column.key] }}
             </template>

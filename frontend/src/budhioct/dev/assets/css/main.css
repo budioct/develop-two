@@ -49,7 +49,7 @@ html {
 
 .dejum {
     text-decoration: underline;
-    text-underline-offset: 0.4rem;
+    text-underline-offset: 0.2rem;
     color: #6CB52D;
     font-weight: bold;
 }
@@ -59,3 +59,15 @@ html {
     color: #6CB52D !important;
 }
 /* spinner */
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    50% { transform: translateX(2px); }
+    75% { transform: translateX(-1px); }
+}
+
+.badge-animated {
+    /*animation: fadeAndShake 5s ease-in-out;*/
+    animation: shake 1s ease-in-out infinite;
+}

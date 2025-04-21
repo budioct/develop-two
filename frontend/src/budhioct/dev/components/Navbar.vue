@@ -66,7 +66,7 @@ const isSubAgentActive = computed(() => {
                 <router-link :to="{ name: 'profil' }" class="nav-link">Profil</router-link>
               </li>
               <li class="nav-item" v-if="isAuthenticated">
-                <router-link :to="{ name: 'stakeholder' }" class="nav-link" :class="{ 'active': isStakeholderActive }">Stakeholder</router-link>
+                <router-link :to="{ name: 'stakeholder' }" class="nav-link" :class="{ 'active': isStakeholderActive }">Holding</router-link>
               </li>
               <li class="nav-item" v-if="isAuthenticated">
                 <router-link :to="{ name: 'offagent' }" class="nav-link" :class="{ 'active': isOfficialAgentActive }">Official Agents</router-link>

@@ -71,6 +71,21 @@ const detailStakeholder = async (id) => {
     }
 };
 
+const productionStakeholder = async (id) => {
+    try {
+        return await axios.post(urlApi.stakeholder.production(id), {}, {
+            withCredentials: true,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${useAuthStore().token}`,
+            },
+        });
+    } catch (error) {
+        console.error(error);
+        throw error
+    }
+};
+
 const listOfficialAgent = async () => {
     try {
         return await axios.get(urlApi.officialagent.list,
@@ -135,6 +150,22 @@ const detailSubAgent = async (id) => {
     }
 };
 
+const detailFolksy = async (id) => {
+    try {
+        return await axios.get(urlApi.folksy.detail(id),
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${useAuthStore().token}`,
+                },
+            });
+    } catch (error) {
+        console.error(error);
+        throw error
+    }
+};
+
 const listTransaction = async () => {
     try {
         return await axios.get(urlApi.transaction.list,
@@ -145,6 +176,21 @@ const listTransaction = async () => {
                     "Authorization": `Bearer ${useAuthStore().token}`,
                 },
             });
+    } catch (error) {
+        console.error(error);
+        throw error
+    }
+};
+
+const prosesTransaction = async (sourceSubAgentId, targetFolksyId, amountGas, pricePerUnit) => {
+    try {
+        return await axios.post(urlApi.transaction.proses(sourceSubAgentId, targetFolksyId, amountGas, pricePerUnit), {}, {
+            withCredentials: true,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${useAuthStore().token}`,
+            },
+        });
     } catch (error) {
         console.error(error);
         throw error
@@ -172,10 +218,13 @@ export {
     logout,
     listStakeholder,
     detailStakeholder,
+    productionStakeholder,
     listOfficialAgent,
     detailOfficialAgent,
     listSubAgent,
     detailSubAgent,
     listTransaction,
+    prosesTransaction,
     distribute,
+    detailFolksy,
 }
